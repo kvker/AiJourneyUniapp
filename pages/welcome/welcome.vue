@@ -1,16 +1,16 @@
 <template>
   <view class="page">
-    <template v-if="detail">
+    <template v-if="attraction">
       <swiper :indicator-dots="false" :autoplay="false" :interval="3000" :duration="1000">
-        <swiper-item v-if="detail.introduceVideo">
-          <video :src="detail.introduceVideo" :muted="muted" :autoplay="true" :controls="false" object-fit="cover"
+        <swiper-item v-if="attraction.introduceVideo">
+          <video :src="attraction.introduceVideo" :muted="muted" :autoplay="true" :controls="false" object-fit="cover"
             @tap="muted = !muted" :loop="true"></video>
         </swiper-item>
-        <swiper-item v-for="item in detail.introduceImageList" :key="item">
+        <swiper-item v-for="item in attraction.introduceImageList" :key="item">
           <image :src="item" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <navigator :url="`/pages/guide/guide?id=${detail.objectId}&name=${detail.name}`">
+      <navigator :url="`/pages/guide/guide?id=${attraction.objectId}&name=${attraction.name}`">
         <cover-image src="../../static/images/guide-main.png"></cover-image>
       </navigator>
     </template>
@@ -27,29 +27,29 @@
   type WelcomeAttraction = { objectId : string, name : string, introduceImageList : string[], introduceVideo : string, } | null
 
   let id = ''
-  const detail : Ref<WelcomeAttraction> = ref(null)
+  const attraction : Ref<WelcomeAttraction> = ref(null)
   const muted = ref(true)
 
   onLoad((query) => {
     if (query) {
       id = query.id
-      doGetDetail()
+      doGetAttraction()
     } else {
       alert('请准确扫码进入')
     }
   })
 
-  onShareAppMessage(() => ({
-    title: 'AI带你游' + detail.value!.name
-  }))
-
-  async function doGetDetail() {
+  async function doGetAttraction() {
     loading()
-    detail.value = await lc.one('Attraction', q => {
+    attraction.value = await lc.one('Attraction', q => {
       q.equalTo('objectId', id)
     }).then(ret => ret.toJSON())
     unloading()
   }
+
+  onShareAppMessage(() => ({
+    title: 'AI带你游' + attraction.value!.name
+  }))
 </script>
 
 <style>

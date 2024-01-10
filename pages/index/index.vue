@@ -1,8 +1,9 @@
 <template>
   <view class="page">
     <CommonHeader title="AI导游大师"></CommonHeader>
-    <navigator v-for="item in list" :key="item.id" class="nav-item" :url="`/pages/welcome/welcome?id=${item.id}`">
-      {{ item.get('name') }}
+    <navigator v-for="item in list" :key="item.objectId" class="nav-item"
+      :url="`/pages/welcome/welcome?id=${item.objectId}`">
+      {{ item.name }}
     </navigator>
   </view>
 </template>
@@ -14,16 +15,14 @@
   import lc from '@/static/libs/lc'
   import { loading, unloading, } from '@/services/ui'
 
+  type IndexAttraction = { objectId : string, name : string, }
+
   const _page = 0
-  const list : Ref<AV.Object[]> = ref([])
+  const list : Ref<IndexAttraction[]> = ref([])
 
   onLoad(() => {
     doGetAttraction()
   })
-
-  onShareAppMessage(() => ({
-    title: 'AI导游大师'
-  }))
 
   async function doGetAttraction() {
     loading()
@@ -31,10 +30,15 @@
       q.descending('createdAt')
       q.limit(10)
       q.skip(_page * 10)
+      q.select(['name'])
     })
-    list.value = ret
+    list.value = ret.map(i => i.toJSON())
     unloading()
   }
+
+  onShareAppMessage(() => ({
+    title: 'AI导游大师'
+  }))
 </script>
 
 <style></style>
