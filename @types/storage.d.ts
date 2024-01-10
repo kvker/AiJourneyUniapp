@@ -405,14 +405,14 @@ export class Object extends BaseObject {
 }
 
 export namespace Object {
-  interface DestroyOptions extends AuthOptions, WaitOption {}
+  interface DestroyOptions extends AuthOptions, WaitOption { }
 
-  interface DestroyAllOptions extends AuthOptions {}
+  interface DestroyAllOptions extends AuthOptions { }
 
   interface SaveOptions<T extends Queriable>
     extends AuthOptions,
-      SilentOption,
-      WaitOption {
+    SilentOption,
+    WaitOption {
     fetchWhenSave?: boolean;
     query?: Query<T>;
   }
@@ -421,7 +421,7 @@ export namespace Object {
     fetchWhenSave?: boolean;
   }
 
-  interface SetOptions extends SilentOption {}
+  interface SetOptions extends SilentOption { }
 }
 
 /**
@@ -689,13 +689,13 @@ interface UnionOptions {
   asMainAccount?: boolean;
 }
 
-interface UnionLoginOptions extends OAuthLoginOptions, UnionOptions {}
+interface UnionLoginOptions extends OAuthLoginOptions, UnionOptions { }
 
 interface MiniappOptions extends UnionOptions {
   preferUnionId: boolean;
 }
 
-interface MiniappLoginOptions extends OAuthLoginOptions, MiniappOptions {}
+interface MiniappLoginOptions extends OAuthLoginOptions, MiniappOptions { }
 
 interface AuthInfo {
   authData: { [key: string]: any };
@@ -1426,9 +1426,9 @@ export namespace Op {
     objects(): any[];
   }
 
-  interface Add extends BaseOperation {}
+  interface Add extends BaseOperation { }
 
-  interface AddUnique extends BaseOperation {}
+  interface AddUnique extends BaseOperation { }
 
   interface Increment extends IBaseObject {
     amount: number;
@@ -1443,7 +1443,7 @@ export namespace Op {
     value(): any;
   }
 
-  interface Unset extends IBaseObject {}
+  interface Unset extends IBaseObject { }
 }
 
 /**
@@ -1479,11 +1479,11 @@ export namespace Cloud {
     data:
       | string
       | {
-          mobilePhoneNumber: string;
-          template?: string;
-          sign?: string;
-          smsType?: 'sms' | 'voice';
-        },
+        mobilePhoneNumber: string;
+        template?: string;
+        sign?: string;
+        smsType?: 'sms' | 'voice';
+      },
     options?: SMSAuthOptions
   ): Promise<void>;
   function verifySmsCode(code: string, phone: string): Promise<void>;
