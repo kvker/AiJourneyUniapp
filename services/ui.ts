@@ -6,7 +6,7 @@ export const toast = (text : string, status : 'success' | 'error' | 'none' = 'no
 }
 
 
-export const loading = (text : string) => {
+export const loading = (text : string = '加载中...') => {
   uni.showLoading({
     title: text
   })
