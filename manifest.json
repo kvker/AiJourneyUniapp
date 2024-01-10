@@ -59,7 +59,8 @@
             "scope.userLocation" : {
                 "desc" : "获取周边景点信息"
             }
-        }
+        },
+        "lazyCodeLoading": "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true
