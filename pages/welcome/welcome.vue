@@ -10,7 +10,7 @@
           <image :src="item" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <navigator :url="`/pages/guide/guide?id=${detail.objectId}`">
+      <navigator :url="`/pages/guide/guide?id=${detail.objectId}&name=${detail.name}`">
         <cover-image src="../../static/images/guide-main.png"></cover-image>
       </navigator>
     </template>
