@@ -20,9 +20,9 @@
 <script lang="ts" setup>
   import { ref } from 'vue'
   import type { Ref } from 'vue'
-  import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
+  import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
   import lc from '@/static/libs/lc'
-  import { alert, loading, unloading, toast, } from '@/services/ui'
+  import { alert, loading, unloading, } from '@/services/ui'
 
   type WelcomeAttraction = { objectId : string, name : string, introduceImageList : string[], introduceVideo : string, } | null
 
