@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import type { Ref } from 'vue'
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
   import lc from '@/static/libs/lc'
@@ -31,23 +31,24 @@
   const muted = ref(true)
 
   onLoad((query) => {
-    id = query!.id
-    doGetDetail()
+    if (query) {
+      id = query.id
+      doGetDetail()
+    } else {
+      alert('请准确扫码进入')
+    }
   })
 
-  onReachBottom(() => { })
-
-  onPullDownRefresh(() => { })
-
   onShareAppMessage(() => ({
-    title: '分享的名字'
+    title: 'AI带你游' + detail.value!.name
   }))
 
   async function doGetDetail() {
+    loading()
     detail.value = await lc.one('Attraction', q => {
       q.equalTo('objectId', id)
     }).then(ret => ret.toJSON())
-    console.log(detail.value)
+    unloading()
   }
 </script>
 

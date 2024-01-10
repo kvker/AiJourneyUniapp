@@ -2,7 +2,7 @@
   <view class="page">
     <CommonHeader title="AI导游大师"></CommonHeader>
     <navigator v-for="item in list" :key="item.id" class="nav-item" :url="`/pages/welcome/welcome?id=${item.id}`">
-      {{item.get('name')}}
+      {{ item.get('name') }}
     </navigator>
   </view>
 </template>
@@ -18,25 +18,23 @@
   const list : Ref<AV.Object[]> = ref([])
 
   onLoad(() => {
-    lc.read('Attraction', (q : AV.Query<AV.Object>) => {
-      q.descending('createdAt')
-      q.limit(10)
-      q.skip(_page * 10)
-    })
-      .then(ret => {
-        list.value = ret
-      })
+    doGetAttraction()
   })
-
-  onReachBottom(() => { })
-
-  onPullDownRefresh(() => { })
 
   onShareAppMessage(() => ({
     title: 'AI导游大师'
   }))
+
+  async function doGetAttraction() {
+    loading()
+    const ret = await lc.read('Attraction', (q : AV.Query<AV.Object>) => {
+      q.descending('createdAt')
+      q.limit(10)
+      q.skip(_page * 10)
+    })
+    list.value = ret
+    unloading()
+  }
 </script>
 
-<style>
-
-</style>
+<style></style>
