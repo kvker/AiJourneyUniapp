@@ -8,7 +8,7 @@
         <text class="name">{{item.name}}</text>
       </view>
       <image class="audio-icon" :src="item.isPlay ? '/static/icons/audio.png' : '/static/icons/audio-disabled.png'"
-        mode="aspectFill" @tap.prevent="onTogglePlay(item)"></image>
+        mode="aspectFill" @tap.stop="onTogglePlay(item)"></image>
     </view>
   </scroll-view>
 </template>
