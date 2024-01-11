@@ -1,17 +1,15 @@
 <template>
   <view class="page">
-    <map v-if="center" :markers="markers" :longitude="center.longitude" :latitude="center.latitude" scale="14">
-    </map>
+    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"></map>
+    <area-list></area-list>
   </view>
 </template>
 
 <script lang="ts" setup>
-  import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
   import { alert } from '@/services/ui'
   import { useMap } from '@/use/map'
-  import type { GuidePointer } from '@/use/map'
-  import { useAreaList } from '@/use/areaList'
+  import { useList } from '@/use/list'
 
   let attractionName = ''
   onLoad(query => {
@@ -25,14 +23,14 @@
   onShareAppMessage(() => ({
     title: '来游玩' + attractionName + '吧'
   }))
-
-  const { lnglat: center, } = useMap()
-  const { markers, } = useAreaList(center as Ref<GuidePointer>)
+  
+  const { list, } = useList()
+  const { lnglat, markers } = useMap(list)
 </script>
 
 <style>
   map {
     width: 100%;
-    height: 100%;
+    height: 62vh;
   }
 </style>
