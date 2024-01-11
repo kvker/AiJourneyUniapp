@@ -21,7 +21,7 @@ export function useMap(list : Ref<GuideArea[]>) {
   const markers = computed(() => {
     let distance = 0.01
     let angle = -36
-    console.log(list)
+    // console.log(list)
     return list.value.map((i, index) => {
       let longitude = i.lnglat.longitude
       let latitude = i.lnglat.latitude
