@@ -18,7 +18,7 @@
       //   console.log('auto login success')
       // })
       .catch(console.error)
-    console.log({ global })
+    // console.log({ global })
   })
   onShow(() => {
     // console.log('App Show')
