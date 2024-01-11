@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 
@@ -8,15 +8,15 @@ import { alert, loading, unloading, } from '@/services/ui'
 export function useMap(list : Ref<GuideArea[]>) {
   onLoad(query => {
     if (query) {
-      isDev.value = query.id === '659e75a84700c26fdeda7874'
+      isDev = query.id === '659e75a84700c26fdeda7874'
       doGetAttraction(query.id)
     } else {
       alert('请准确进入')
     }
   })
 
-  const lnglat : Ref<GuidePointer | null> = ref(null)
-  const isDev = ref(false)
+  const lnglat : Ref<GuidePointer | null> = shallowRef(null)
+  let isDev = false
 
   const markers = computed(() => {
     let distance = 0.01
@@ -25,7 +25,7 @@ export function useMap(list : Ref<GuideArea[]>) {
     return list.value.map((i, index) => {
       let longitude = i.lnglat.longitude
       let latitude = i.lnglat.latitude
-      if (isDev.value) {
+      if (isDev) {
         longitude = lnglat.value!.longitude
         latitude = lnglat.value!.latitude
         if (i === list.value[0]) {
@@ -34,6 +34,12 @@ export function useMap(list : Ref<GuideArea[]>) {
           angle += 360 / (list.value.length - 1)
           longitude += distance * Math.cos(angle)
           latitude += distance * Math.sin(angle)
+        }
+        i.lnglat.longitude = longitude
+        i.lnglat.latitude = latitude
+        // 测试标记要清掉，不然后面变更中心会一直重新算
+        if (index === list.value.length - 1) {
+          isDev = false
         }
       }
 
@@ -56,6 +62,10 @@ export function useMap(list : Ref<GuideArea[]>) {
     })
   })
 
+  function doMoveToArea(item : GuideArea) {
+    lnglat.value = item.lnglat
+  }
+
   async function doGetAttraction(id : string) {
     loading()
     const ret = await lc.one('Attraction', q => {
@@ -69,5 +79,6 @@ export function useMap(list : Ref<GuideArea[]>) {
   return {
     lnglat,
     markers,
+    doMoveToArea,
   }
 }

@@ -1,11 +1,13 @@
 <template>
   <view class="page">
-    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"></map>
-    <area-list></area-list>
+    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
+      @markertap="onMarkerTap"></map>
+    <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
   </view>
 </template>
 
 <script lang="ts" setup>
+  import { ref } from "vue"
   import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
   import { alert } from '@/services/ui'
   import { useMap } from '@/use/map'
@@ -23,9 +25,22 @@
   onShareAppMessage(() => ({
     title: '来游玩' + attractionName + '吧'
   }))
-  
+
+  const listRef = ref()
   const { list, } = useList()
-  const { lnglat, markers } = useMap(list)
+  const { lnglat, markers, doMoveToArea } = useMap(list)
+
+  function onMarkerTap(e : DetailEvent) {
+    // 这个id就是列表的index创建的
+    const index = e.detail.markerId
+    const item = list.value[index]
+    changeArea(item)
+  }
+
+  function changeArea(item : GuideArea) {
+    listRef.value.doMoveToArea(item)
+    doMoveToArea(item)
+  }
 </script>
 
 <style>
