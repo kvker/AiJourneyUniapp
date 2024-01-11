@@ -1,5 +1,6 @@
 <template>
-  <scroll-view :scroll-y="true" class="area-list-component" :scroll-into-view="scrollTargetId" :scroll-with-animation="true">
+  <scroll-view :scroll-y="true" class="area-list-component" :scroll-into-view="scrollTargetId"
+    :scroll-with-animation="true">
     <view v-for="item in areaList" :key="item.objectId" :id="'area-item-' + item.objectId" class="area-item flex aic"
       @tap="onChangeArea(item)">
       <image class="item-image" :src="item.coverImageList[0]" mode="aspectFill"></image>
@@ -13,34 +14,24 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, computed, ref } from 'vue'
+  import { computed, ref } from 'vue'
 
   type InnerGuideArea = GuideArea & { isPlay : boolean }
 
-  const props = defineProps({
-    list: {
-      type: Array,
-      required: true,
-      default: () => []
-    }
-  })
+  const props = defineProps<{
+    list : InnerGuideArea[]
+  }>()
 
   const scrollTargetId = ref('')
 
-  // 这段丑陋的代码（为了TS），有啥好招吗？
   const areaList = computed(() => {
-    return props.list.map((i : any) => {
-      let item = i as InnerGuideArea
-      item.isPlay = false
-      return item
+    return props.list.map((i) => {
+      i.isPlay = false
+      return i
     })
   })
 
   const emit = defineEmits(['change'])
-
-  onMounted(() => {
-    console.log(areaList)
-  })
 
   function onChangeArea(item : InnerGuideArea) {
     emit('change', item)
