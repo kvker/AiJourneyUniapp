@@ -13,10 +13,10 @@
   onLaunch(() => {
     // console.log('App Launch')
     lc.loginWithWeChat()
-      .then(user => {
-        // console.log(user)
-        // console.log('auto login success')
-      })
+      // .then(user => {
+      //   console.log(user)
+      //   console.log('auto login success')
+      // })
       .catch(console.error)
     console.log({ global })
   })

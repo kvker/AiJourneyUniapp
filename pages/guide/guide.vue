@@ -8,8 +8,9 @@
 <script lang="ts" setup>
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
-  import { alert, } from '@/services/ui'
-  import { GuidePointer, useMap } from '@/use/map'
+  import { alert } from '@/services/ui'
+  import { useMap } from '@/use/map'
+  import type { GuidePointer } from '@/use/map'
   import { useAreaList } from '@/use/areaList'
 
   let attractionName = ''
@@ -21,12 +22,12 @@
     }
   })
 
-  const { lnglat: center, } = useMap()
-  const { areaList, markers, } = useAreaList(center as Ref<GuidePointer>)
-
   onShareAppMessage(() => ({
     title: '来游玩' + attractionName + '吧'
   }))
+
+  const { lnglat: center, } = useMap()
+  const { markers, } = useAreaList(center as Ref<GuidePointer>)
 </script>
 
 <style>

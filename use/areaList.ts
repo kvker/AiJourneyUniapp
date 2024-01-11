@@ -5,7 +5,7 @@ import lc from '@/static/libs/lc'
 import { alert, loading, unloading, } from '@/services/ui'
 import type { GuidePointer } from '@/use/map'
 
-type GuideArea = { objectId : string, name : string, introduceImageList : string[], introduceVideo : string, lnglat : GuidePointer }
+type GuideArea = { objectId : string, name : string, lnglat : GuidePointer }
 
 export function useAreaList(center : Ref<GuidePointer>) {
   let areaList : Ref<GuideArea[]> = ref([])
