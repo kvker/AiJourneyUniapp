@@ -74,3 +74,7 @@ type QRItem = {
   contacts ?: string[],
   cover ?: string, // 背景图
 }
+
+type DetailEvent = {
+  detail : BaseObject
+}
