@@ -12,7 +12,7 @@ if (!(AV.applicationId && AV.applicationKey)) {
 
 const isDev = process.env.NODE_ENV === 'development'
 
-isDev && console.log('调用的是测试环境云函数')
+// isDev && console.log('调用的是测试环境云函数')
 AV.setProduction(true || !isDev)
 
 type LCQueryCallback = (q : AV.Query<AV.Object>) => AV.Query<AV.Object> | void

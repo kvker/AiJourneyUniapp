@@ -1,7 +1,6 @@
-import { ref, computed, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
-
 import lc from '@/static/libs/lc'
 import { alert, loading, unloading, } from '@/services/ui'
 
@@ -21,7 +20,6 @@ export function useMap(list : Ref<GuideArea[]>) {
   const markers = computed(() => {
     let distance = 0.01
     let angle = -36
-    // console.log(list)
     return list.value.map((i, index) => {
       let longitude = i.lnglat.longitude
       let latitude = i.lnglat.latitude
