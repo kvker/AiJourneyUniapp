@@ -201,3 +201,5 @@ const lc = {
 }
 
 export default lc
+
+export type LC = keyof typeof lc
