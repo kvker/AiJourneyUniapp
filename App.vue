@@ -37,4 +37,8 @@
   .page {
     background: linear-gradient(180deg, #D4E3FF 0%, #FFF 100%);
   }
+  
+  .component {
+    height: 100vh;
+  }
 </style>
