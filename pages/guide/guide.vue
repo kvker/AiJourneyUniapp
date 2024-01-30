@@ -3,7 +3,7 @@
     <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
       @markertap="onMarkerTap"></map>
     <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
-    <AreaIntroduce v-if="area" :area="area" @init="onInitAreaIntroduce" class="mask"></AreaIntroduce>
+    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @init="onInitAreaIntroduce" @close="areaIntroduceShow = false" class="mask"></AreaIntroduce>
   </view>
 </template>
 
@@ -31,6 +31,7 @@
   const listRef = ref()
   const { list, } = useList()
   const { lnglat, markers, doMoveToArea } = useMap(list)
+  const areaIntroduceShow = ref(false)
 
   function onMarkerTap(e : DetailEvent) {
     // 这个id就是列表的index创建的
@@ -48,6 +49,7 @@
   function doShowAreaPlayer(item : GuideArea) {
     console.log(item)
     area.value = item
+    areaIntroduceShow.value = true
   }
 
   function onInitAreaIntroduce() {

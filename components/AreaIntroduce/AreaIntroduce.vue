@@ -9,7 +9,8 @@
       </swiper>
       <view class="h-30 scroll-y px-10 mt-10"><text user-select>{{introduce}}</text></view>
       <view v-if="voice" class="mt-10">
-        <button type="default" @click="onToggleAudio">播放音频</button>
+        <button type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button type="default" @click="onClose">关闭</button>
       </view>
     </template>
   </view>
@@ -27,6 +28,8 @@
       required: true,
     }
   })
+
+  const emit = defineEmits(['close'])
 
   const styleIntroduceQueriables = ref<AV.Queriable[]>([])
   const styleIntroduces = computed(() => {
@@ -52,11 +55,11 @@
     immediate: true
   })
 
-  let isPlay = false
+  const isPlay = ref(false)
   const ac = uni.createInnerAudioContext()
-  ac.onEnded(() => isPlay = false)
-  ac.onWaiting(() => isPlay = false)
-  ac.onError(() => isPlay = false)
+  ac.onEnded(() => isPlay.value = false)
+  ac.onWaiting(() => isPlay.value = false)
+  ac.onError(() => isPlay.value = false)
 
   function onPreviewImame(image, index) {
     if (props.area) {
@@ -80,8 +83,8 @@
       const voice = styleIntroduces.value[0].voice
       if (voice) {
         ac.src = voice
-        isPlay = !isPlay
-        isPlay ? ac.play() : ac.pause()
+        isPlay.value = !isPlay.value
+        isPlay.value ? ac.play() : ac.pause()
       } else {
         console.log('无音频')
       }
@@ -89,9 +92,17 @@
       console.log('无风格语音')
     }
   }
+
+  function onClose() {
+    emit('close')
+  }
 </script>
 
 <style scoped>
+  .component {
+    background-color: white;
+  }
+
   swiper {
     width: 100%;
     height: 40%;
