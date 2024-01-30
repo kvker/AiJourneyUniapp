@@ -19,6 +19,14 @@
         "navigationBarTitleText" : "",
         "enablePullDownRefresh" : false
       }
+    },
+    {
+      "path" : "pages/area-introduce/area-introduce",
+      "style" : 
+      {
+        "navigationBarTitleText" : "",
+        "enablePullDownRefresh" : false
+      }
     }
   ],
   "globalStyle": {

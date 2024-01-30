@@ -8,13 +8,13 @@ export function useList() {
   const list : Ref<GuideArea[]> = ref([])
   onLoad(query => {
     if (query) {
-      doGetAreaList(query.id)
+      getAreaList(query.id)
     } else {
       alert('请准确进入')
     }
   })
 
-  async function doGetAreaList(id : string) {
+  async function getAreaList(id : string) {
     loading()
     let ret = await lc.read('Area', q => {
       q.equalTo('attraction', lc.createObject('Attraction', id))

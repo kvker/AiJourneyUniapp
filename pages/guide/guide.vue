@@ -3,6 +3,7 @@
     <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
       @markertap="onMarkerTap"></map>
     <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
+    <AreaIntroduce v-if="area" :area="area" @init="onInitAreaIntroduce" class="mask"></AreaIntroduce>
   </view>
 </template>
 
@@ -26,6 +27,7 @@
     title: '来游玩' + attractionName + '吧'
   }))
 
+  const area = ref<GuideArea>()
   const listRef = ref()
   const { list, } = useList()
   const { lnglat, markers, doMoveToArea } = useMap(list)
@@ -40,6 +42,16 @@
   function changeArea(item : GuideArea) {
     listRef.value.doMoveToArea(item)
     doMoveToArea(item)
+    doShowAreaPlayer(item)
+  }
+
+  function doShowAreaPlayer(item : GuideArea) {
+    console.log(item)
+    area.value = item
+  }
+
+  function onInitAreaIntroduce() {
+    console.log('onInitAreaIntroduce')
   }
 </script>
 
