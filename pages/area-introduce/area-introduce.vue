@@ -1,5 +1,5 @@
 <template>
-  <AreaIntroduce v-if="area" :area="area" @init="onInitAreaIntroduce"></AreaIntroduce>
+  <AreaIntroduce v-if="area" :area="area" :closeShow="false" @init="onInitAreaIntroduce"></AreaIntroduce>
 </template>
 
 <script lang="ts" setup>
@@ -17,7 +17,7 @@
       return areaQueriable.value.toJSON()
     }
   })
-  
+
   onLoad((query) => {
     if (query && query.id) {
       getArea(query.id)
@@ -41,6 +41,9 @@
         q.equalTo('objectId', objectId)
       })
       areaQueriable.value = ret
+      uni.setNavigationBarTitle({
+        title: areaQueriable.value.get('name')
+      })
     } catch (e) {
       console.error(e)
     }

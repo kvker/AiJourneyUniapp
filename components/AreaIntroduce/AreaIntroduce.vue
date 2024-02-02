@@ -8,9 +8,9 @@
         </swiper-item>
       </swiper>
       <view class="h-30 scroll-y px-10 mt-10"><text user-select>{{introduce}}</text></view>
-      <view v-if="voice" class="mt-10">
-        <button type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
-        <button type="default" @click="onClose">关闭</button>
+      <view class="mt-10">
+        <button v-if="voice" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button v-if="closeShow" type="default" @click="onClose">关闭</button>
       </view>
     </template>
   </view>
@@ -26,6 +26,10 @@
     area: {
       type: Object as () => GuideArea,
       required: true,
+    },
+    closeShow: {
+      type: Boolean,
+      default: true,
     }
   })
 
@@ -58,12 +62,11 @@
   const isPlay = ref(false)
   const ac = uni.createInnerAudioContext()
   ac.onEnded(() => isPlay.value = false)
-  ac.onWaiting(() => isPlay.value = false)
   ac.onError(() => isPlay.value = false)
 
   function onPreviewImame(image, index) {
     if (props.area) {
-      console.log(props.area)
+      // console.log(props.area)
       uni.previewImage({
         urls: props.area.coverImageList
       })
@@ -85,6 +88,7 @@
         ac.src = voice
         isPlay.value = !isPlay.value
         isPlay.value ? ac.play() : ac.pause()
+        // console.log(isPlay.value)
       } else {
         console.log('无音频')
       }
@@ -94,6 +98,7 @@
   }
 
   function onClose() {
+    ac.pause()
     emit('close')
   }
 </script>
