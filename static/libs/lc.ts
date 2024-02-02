@@ -6,7 +6,7 @@ if (!(AV.applicationId && AV.applicationKey)) {
   AV.init({
     appId: '4GOlv4BZHsvjPc5qyB9QSvku-gzGzoHsz',
     appKey: 'a1AQ3HHUkZyw7aB3lyvdo8zs',
-    serverURL: 'https://4golv4bz.lc-cn-n1-shared.com'
+    serverURL: 'https://aiguidelcapi.ilovecats.cn'
   })
 }
 
