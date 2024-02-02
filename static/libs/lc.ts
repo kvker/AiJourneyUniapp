@@ -193,7 +193,7 @@ const lc = {
   syncLoginStatus() : Promise<boolean> {
     let interval = 0
     let tryTimes = 0
-    const maxTryTimes = 20
+    const maxTryTimes = 30
     let handler = (s : (value : boolean | PromiseLike<boolean>) => void, j : (reason ?: any) => void) => {
       if (this.currentUser()) {
         clearInterval(interval)
