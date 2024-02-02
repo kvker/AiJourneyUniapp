@@ -3,9 +3,10 @@ import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import lc from '@/static/libs/lc'
 import { alert, loading, unloading, } from '@/services/ui'
+import { wgs84togcj02 } from '@/services/map'
 
 // let isDev = false
-export function useMap(list : Ref<GuideArea[]>) {
+export function useMap(list : Ref<GuideItem[]>) {
   onLoad(query => {
     if (query) {
       // isDev = query.id === '659e75a84700c26fdeda7874'
@@ -21,8 +22,8 @@ export function useMap(list : Ref<GuideArea[]>) {
     let distance = 0.01
     let angle = -36
     return list.value.map((i, index) => {
-      let longitude = i.lnglat.longitude
-      let latitude = i.lnglat.latitude
+      // let longitude = i.lnglat.longitude
+      // let latitude = i.lnglat.latitude
       // if (isDev) {
       //   longitude = lnglat.value!.longitude
       //   latitude = lnglat.value!.latitude
@@ -40,14 +41,14 @@ export function useMap(list : Ref<GuideArea[]>) {
       //     isDev = false
       //   }
       // }
-
+      let [longitude, latitude] = wgs84togcj02(i.lnglat.longitude, i.lnglat.latitude)
       return {
         id: index,
-        path: '/static/images/marker.png',
+        iconPath: `/static/images/marker-${i.type}.png`,
         latitude,
         longitude,
         width: 20,
-        height: 30,
+        height: 20,
         callout: {
           content: i.name,
           anchorY: 0,

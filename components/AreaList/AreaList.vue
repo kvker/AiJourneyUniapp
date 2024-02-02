@@ -3,7 +3,7 @@
     :scroll-with-animation="true">
     <view v-for="item in areaList" :key="item.objectId" :id="'area-item-' + item.objectId" class="area-item flex aic"
       @tap="onChangeArea(item)">
-      <image class="item-image" :src="item.coverImageList[0]" mode="aspectFill"></image>
+      <image v-if="item.coverImageList[0]" class="item-image" :src="item.coverImageList[0]" mode="aspectFill"></image>
       <view class="info">
         <text class="name">{{item.name}}</text>
       </view>
