@@ -34,21 +34,22 @@
     title: areaQueriable.value!.get('name')
   }))
 
-  async function getArea(objectId : string) {
-    await lc.syncLoginStatus()
-    loading('获取中...')
-    try {
-      const ret = await lc.one('Area', q => {
-        q.equalTo('objectId', objectId)
-      })
-      areaQueriable.value = ret
-      uni.setNavigationBarTitle({
-        title: areaQueriable.value.get('name')
-      })
-    } catch (e) {
-      console.error(e)
-    }
-    unloading()
+  function getArea(objectId : string) {
+    lc.continueWithUser(async () => {
+      loading('获取中...')
+      try {
+        const ret = await lc.one('Area', q => {
+          q.equalTo('objectId', objectId)
+        })
+        areaQueriable.value = ret
+        uni.setNavigationBarTitle({
+          title: areaQueriable.value.get('name')
+        })
+      } catch (e) {
+        console.error(e)
+      }
+      unloading()
+    })
   }
 
   function onInitAreaIntroduce(params : any) {

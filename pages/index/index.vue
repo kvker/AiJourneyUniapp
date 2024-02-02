@@ -26,19 +26,24 @@
     getAttractionList()
   })
 
-  async function getAttractionList() {
-    await lc.syncLoginStatus()
-    loading()
-    const ret = await lc.read('Attraction', (q : AV.Query<AV.Object>) => {
-      q.descending('createdAt')
-      q.limit(_size)
-      q.skip(_page * _size)
-      q.select(['name', 'introduceImageList'])
+  function getAttractionList() {
+    lc.continueWithUser(async () => {
+      loading()
+      try {
+        const ret = await lc.read('Attraction', (q : AV.Query<AV.Object>) => {
+          q.descending('createdAt')
+          q.limit(_size)
+          q.skip(_page * _size)
+          q.select(['name', 'introduceImageList'])
+        })
+        list.value = [...list.value, ...ret.map(i => i.toJSON())]
+        _page++
+        uni.stopPullDownRefresh()
+      } catch (e) {
+        console.error(e)
+      }
+      unloading()
     })
-    list.value = [...list.value, ...ret.map(i => i.toJSON())]
-    _page++
-    uni.stopPullDownRefresh()
-    unloading()
   }
 
   onShareAppMessage(() => ({

@@ -187,8 +187,11 @@ const lc = {
   currentUser() : AV.User {
     return AV.User.current()
   },
+  /**
+   * 同步用户登录情况
+   */
   syncLoginStatus() : Promise<boolean> {
-    let interval : number = 0
+    let interval = 0
     let tryTimes = 0
     const maxTryTimes = 20
     let handler = (s : (value : boolean | PromiseLike<boolean>) => void, j : (reason ?: any) => void) => {
@@ -198,6 +201,7 @@ const lc = {
         s(true)
       } else {
         tryTimes++
+        console.log({ tryTimes })
         if (tryTimes > maxTryTimes) {
           j(false)
         }
@@ -209,6 +213,13 @@ const lc = {
       }, 100)
       handler(s, j)
     })
+  },
+  /**
+   * 需要用户登录情况额回调操作
+   */
+  async continueWithUser(cb : Function) {
+    await this.syncLoginStatus()
+    cb()
   },
   become(sessionToken : string) : Promise<AV.User> {
     return AV.User.become(sessionToken)
