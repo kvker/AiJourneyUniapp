@@ -27,6 +27,7 @@
   })
 
   async function getAttractionList() {
+    await lc.syncLoginStatus()
     loading()
     const ret = await lc.read('Attraction', (q : AV.Query<AV.Object>) => {
       q.descending('createdAt')

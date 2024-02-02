@@ -35,6 +35,7 @@
   }))
 
   async function getArea(objectId : string) {
+    await lc.syncLoginStatus()
     loading('获取中...')
     try {
       const ret = await lc.one('Area', q => {

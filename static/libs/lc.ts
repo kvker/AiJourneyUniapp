@@ -187,6 +187,29 @@ const lc = {
   currentUser() : AV.User {
     return AV.User.current()
   },
+  syncLoginStatus() : Promise<boolean> {
+    let interval : number = 0
+    let tryTimes = 0
+    const maxTryTimes = 20
+    let handler = (s : (value : boolean | PromiseLike<boolean>) => void, j : (reason ?: any) => void) => {
+      if (this.currentUser()) {
+        clearInterval(interval)
+        interval = 0
+        s(true)
+      } else {
+        tryTimes++
+        if (tryTimes > maxTryTimes) {
+          j(false)
+        }
+      }
+    }
+    return new Promise<boolean>((s, j) => {
+      interval = setInterval(() => {
+        handler(s, j)
+      }, 100)
+      handler(s, j)
+    })
+  },
   become(sessionToken : string) : Promise<AV.User> {
     return AV.User.become(sessionToken)
   },
