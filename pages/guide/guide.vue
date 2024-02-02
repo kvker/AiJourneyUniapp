@@ -3,7 +3,7 @@
     <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
       @markertap="onMarkerTap"></map>
     <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
-    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @init="onInitAreaIntroduce" @close="areaIntroduceShow = false" class="mask"></AreaIntroduce>
+    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @close="areaIntroduceShow = false" class="mask"></AreaIntroduce>
   </view>
 </template>
 
@@ -47,13 +47,9 @@
   }
 
   function doShowAreaPlayer(item : GuideArea) {
-    console.log(item)
+    // console.log(item)
     area.value = item
     areaIntroduceShow.value = true
-  }
-
-  function onInitAreaIntroduce() {
-    console.log('onInitAreaIntroduce')
   }
 </script>
 
