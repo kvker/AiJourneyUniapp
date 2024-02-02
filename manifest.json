@@ -60,7 +60,7 @@
                 "desc" : "获取周边景点信息"
             }
         },
-        "lazyCodeLoading": "requiredComponents"
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true
