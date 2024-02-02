@@ -31,7 +31,7 @@
   onPullDownRefresh(() => { })
 
   onShareAppMessage(() => ({
-    title: '分享的名字'
+    title: areaQueriable.value!.get('name')
   }))
 
   async function getArea(objectId : string) {
