@@ -72,7 +72,8 @@ export function useMap(list : Ref<GuideItem[]>) {
       q.select(['lnglat'])
     }).then(ret => ret.toJSON())
     unloading()
-    lnglat.value = ret.lnglat
+    let [longitude, latitude] = wgs84togcj02(ret.lnglat.longitude, ret.lnglat.latitude)
+    lnglat.value = { longitude, latitude }
   }
 
   return {
