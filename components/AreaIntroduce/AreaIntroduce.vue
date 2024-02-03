@@ -1,21 +1,3 @@
-<template>
-  <view class="component">
-    <template v-if="area">
-      <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
-        <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
-          @click.stop="onPreviewImame(image,index)">
-          <image class="w-100 h-100" :src="image" mode="aspectFill"></image>
-        </swiper-item>
-      </swiper>
-      <view class="h-30 scroll-y px-10 mt-10"><text user-select>{{introduce}}</text></view>
-      <view class="mt-10">
-        <button v-if="voice" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
-        <button v-if="closeShow" type="default" @click="onClose">关闭</button>
-      </view>
-    </template>
-  </view>
-</template>
-
 <script lang="ts" setup>
   import { computed, ComputedRef, ref, watch } from 'vue'
   import type { Ref } from 'vue'
@@ -102,6 +84,24 @@
     emit('close')
   }
 </script>
+
+<template>
+  <view class="component">
+    <template v-if="area">
+      <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
+        <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
+          @click.stop="onPreviewImame(image,index)">
+          <image class="w-100 h-100" :src="image" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
+      <view class="h-30 scroll-y px-10 mt-10"><text user-select>{{introduce}}</text></view>
+      <view class="mt-10">
+        <button v-if="voice" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button v-if="closeShow" type="default" @click="onClose">关闭</button>
+      </view>
+    </template>
+  </view>
+</template>
 
 <style scoped>
   .component {

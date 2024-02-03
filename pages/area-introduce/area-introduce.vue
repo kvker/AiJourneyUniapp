@@ -1,7 +1,3 @@
-<template>
-  <AreaIntroduce v-if="area" :area="area" :closeShow="false" @init="onInitAreaIntroduce"></AreaIntroduce>
-</template>
-
 <script lang="ts" setup>
   import { computed, ref } from 'vue'
   import type { Ref } from 'vue'
@@ -56,6 +52,10 @@
     console.log(params)
   }
 </script>
+
+<template>
+  <AreaIntroduce v-if="area" :area="area" :closeShow="false" @init="onInitAreaIntroduce"></AreaIntroduce>
+</template>
 
 <style>
 

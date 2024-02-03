@@ -1,9 +1,3 @@
-<template>
-  <view class="header-box flex jcc">
-    <text class="title">{{ title }}</text>
-  </view>
-</template>
-
 <script lang="ts" setup>
 defineProps({
   title: {
@@ -12,6 +6,12 @@ defineProps({
   }
 })
 </script>
+
+<template>
+  <view class="header-box flex jcc">
+    <text class="title">{{ title }}</text>
+  </view>
+</template>
 
 <style scoped>
 .header-box {

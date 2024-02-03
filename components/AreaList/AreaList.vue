@@ -1,18 +1,3 @@
-<template>
-  <scroll-view :scroll-y="true" class="area-list-component" :scroll-into-view="scrollTargetId"
-    :scroll-with-animation="true">
-    <view v-for="item in areaList" :key="item.objectId" :id="'area-item-' + item.objectId" class="area-item flex aic"
-      @tap="onChangeArea(item)">
-      <image v-if="item.coverImageList[0]" class="item-image" :src="item.coverImageList[0]" mode="aspectFill"></image>
-      <view class="info">
-        <text class="name">{{item.name}}</text>
-      </view>
-      <image class="audio-icon" :src="item.isPlay ? '/static/icons/audio.png' : '/static/icons/audio-disabled.png'"
-        mode="aspectFill" @tap.stop="onTogglePlay(item)"></image>
-    </view>
-  </scroll-view>
-</template>
-
 <script lang="ts" setup>
   import { computed, ref } from 'vue'
 
@@ -50,6 +35,21 @@
     doMoveToArea,
   })
 </script>
+
+<template>
+  <scroll-view :scroll-y="true" class="area-list-component" :scroll-into-view="scrollTargetId"
+    :scroll-with-animation="true">
+    <view v-for="item in areaList" :key="item.objectId" :id="'area-item-' + item.objectId" class="area-item flex aic"
+      @tap="onChangeArea(item)">
+      <image v-if="item.coverImageList[0]" class="item-image" :src="item.coverImageList[0]" mode="aspectFill"></image>
+      <view class="info">
+        <text class="name">{{item.name}}</text>
+      </view>
+      <image class="audio-icon" :src="item.isPlay ? '/static/icons/audio.png' : '/static/icons/audio-disabled.png'"
+        mode="aspectFill" @tap.stop="onTogglePlay(item)"></image>
+    </view>
+  </scroll-view>
+</template>
 
 <style>
   .area-list-component {

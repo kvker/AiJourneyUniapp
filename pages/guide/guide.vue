@@ -1,12 +1,3 @@
-<template>
-  <view class="page">
-    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
-      @markertap="onMarkerTap"></map>
-    <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
-    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @close="areaIntroduceShow = false" class="mask"></AreaIntroduce>
-  </view>
-</template>
-
 <script lang="ts" setup>
   import { ref } from "vue"
   import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
@@ -52,6 +43,16 @@
     areaIntroduceShow.value = true
   }
 </script>
+
+<template>
+  <view class="page">
+    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
+      @markertap="onMarkerTap"></map>
+    <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
+    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @close="areaIntroduceShow = false" class="mask">
+    </AreaIntroduce>
+  </view>
+</template>
 
 <style>
   map {

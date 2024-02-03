@@ -1,14 +1,3 @@
-<template>
-  <view class="page">
-    <CommonHeader title="AI导游大师"></CommonHeader>
-    <navigator v-for="(item) of list" :key="item.objectId" class="nav-item flex aic jcsb p-10"
-      :url="`/pages/welcome/welcome?id=${item.objectId}`">
-      <image class="nav-image" :src="item.introduceImageList[0]" mode="aspectFill"></image>
-      <text>{{item.name}}</text>
-    </navigator>
-  </view>
-</template>
-
 <script lang="ts" setup>
   import { ref } from 'vue'
   import type { Ref } from 'vue'
@@ -60,6 +49,17 @@
     getAttractionList()
   })
 </script>
+
+<template>
+  <view class="page">
+    <CommonHeader title="AI导游大师"></CommonHeader>
+    <navigator v-for="(item) of list" :key="item.objectId" class="nav-item flex aic jcsb p-10"
+      :url="`/pages/welcome/welcome?id=${item.objectId}`">
+      <image class="nav-image" :src="item.introduceImageList[0]" mode="aspectFill"></image>
+      <text>{{item.name}}</text>
+    </navigator>
+  </view>
+</template>
 
 <style scoped>
   .nav-item {}
