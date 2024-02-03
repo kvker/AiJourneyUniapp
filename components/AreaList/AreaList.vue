@@ -60,6 +60,7 @@
 
   .area-item {
     margin-bottom: 40rpx;
+    height: 96rpx;
   }
 
   .area-item:last-of-type {
@@ -68,7 +69,7 @@
 
   .item-image {
     width: 96rpx;
-    height: 96rpx;
+    height: 100%;
     border-radius: 16rpx;
     margin-right: 20rpx;
   }
