@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, watch, onUnmounted } from 'vue'
   import type { Ref } from 'vue'
   import lc from '@/static/libs/lc'
   import { alert, loading, unloading, toast, } from '@/services/ui'
@@ -45,6 +45,10 @@
   const ac = uni.createInnerAudioContext()
   ac.onEnded(() => isPlay.value = false)
   ac.onError(() => isPlay.value = false)
+  
+  onUnmounted(() => {
+    ac.stop()
+  })
 
   function onPreviewImame(image, index) {
     if (props.area) {
