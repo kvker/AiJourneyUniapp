@@ -5,7 +5,7 @@
   import lc from '@/static/libs/lc'
   import { loading, unloading, } from '@/services/ui'
 
-  type IndexAttraction = { objectId : string, name : string, introduceImageList : string[] }
+  type IndexAttraction = { objectId : string, name : string, introduce : string, introduceImageList : string[] }
 
   let _page = 0
   const _size = 10
@@ -23,7 +23,7 @@
           q.descending('createdAt')
           q.limit(_size)
           q.skip(_page * _size)
-          q.select(['name', 'introduceImageList'])
+          q.select(['name', 'introduceImageList', 'introduce'])
         })
         list.value = [...list.value, ...ret.map(i => i.toJSON())]
         _page++
@@ -56,16 +56,28 @@
     <navigator v-for="(item) of list" :key="item.objectId" class="nav-item flex aic jcsb p-10"
       :url="`/pages/welcome/welcome?id=${item.objectId}`">
       <image class="nav-image" :src="item.introduceImageList[0]" mode="aspectFill"></image>
-      <text>{{item.name}}</text>
+      <view class="info flex-c jcsa h-100">
+        <text class="font-bold">{{item.name}}</text>
+        <view class="overflow">
+          {{item.introduce}}
+        </view>
+      </view>
     </navigator>
   </view>
 </template>
 
 <style scoped>
-  .nav-item {}
+  .nav-item {
+    height: 100px;
+  }
 
   .nav-image {
     width: 80px;
     height: 80px;
+    border-radius: 50%;
+  }
+  
+  .info  {
+    width: calc(100% - 100px);
   }
 </style>
