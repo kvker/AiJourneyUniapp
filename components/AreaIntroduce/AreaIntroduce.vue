@@ -45,7 +45,7 @@
   const ac = uni.createInnerAudioContext()
   ac.onEnded(() => isPlay.value = false)
   ac.onError(() => isPlay.value = false)
-  
+
   onUnmounted(() => {
     ac.stop()
   })
