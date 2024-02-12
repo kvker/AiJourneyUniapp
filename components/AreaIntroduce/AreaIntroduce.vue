@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { computed, ComputedRef, ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import type { Ref } from 'vue'
   import lc from '@/static/libs/lc'
   import { alert, loading, unloading, toast, } from '@/services/ui'
@@ -86,7 +86,7 @@
 </script>
 
 <template>
-  <view class="component">
+  <view class="component h-100 flex-c">
     <template v-if="area">
       <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
         <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
@@ -94,22 +94,49 @@
           <image class="w-100 h-100" :src="image" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <view class="h-30 scroll-y px-10 mt-10"><text user-select>{{introduce}}</text></view>
-      <view class="mt-10">
-        <button v-if="voice" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
-        <button v-if="closeShow" type="default" @click="onClose">关闭</button>
+      <view class="title bold mt-20 mb-10">{{props.area.name}}</view>
+      <view class="introduce f1 scroll-y pb-40"><text user-select>{{introduce}}</text></view>
+      <view class="controls mb-40">
+        <button v-if="voice" class="mt-10" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button v-if="closeShow" class="mt-10" type="default" @click="onClose">关闭</button>
       </view>
+      <!-- 调试用 -->
+      <!-- <view class="controls mb-40">
+        <button type="default" class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button type="default" class="mt-10" @click="onClose">关闭</button>
+      </view> -->
     </template>
   </view>
 </template>
 
 <style scoped>
   .component {
+    padding: 10vw 5vw 0 5vw;
     background-color: white;
   }
 
   swiper {
+    position: relative;
+    left: 9;
+    width: 90vw;
+    height: 90vw;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .introduce {
+    color: #999;
+  }
+
+  .controls button {
+    border-radius: 16px;
     width: 100%;
-    height: 40%;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(135deg, #013EF6, #038EFE);
   }
 </style>

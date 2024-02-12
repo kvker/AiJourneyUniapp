@@ -24,7 +24,6 @@
       "path": "pages/area-introduce/area-introduce",
       "style": {
         "navigationBarTitleText": "",
-        "navigationStyle": "default",
         "enablePullDownRefresh": false
       }
     }
