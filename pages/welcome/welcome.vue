@@ -1,32 +1,10 @@
 <script lang="ts" setup>
   import { ref } from 'vue'
-  import type { Ref } from 'vue'
-  import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
-  import lc from '@/static/libs/lc'
-  import { alert, loading, unloading, } from '@/services/ui'
-
-  type WelcomeAttraction = { objectId : string, name : string, introduceImageList : string[], introduceVideo : string, } | null
-
-  let id = ''
-  const attraction : Ref<WelcomeAttraction> = ref(null)
+  import { onShareAppMessage } from '@dcloudio/uni-app'
+  import { useAttraction } from '@/use/attraction'
+  
+  const { attraction } = useAttraction()
   const muted = ref(true)
-
-  onLoad((query) => {
-    if (query) {
-      id = query.id
-      doGetAttraction()
-    } else {
-      alert('请准确扫码进入')
-    }
-  })
-
-  async function doGetAttraction() {
-    loading()
-    attraction.value = await lc.one('Attraction', q => {
-      q.equalTo('objectId', id)
-    }).then(ret => ret.toJSON())
-    unloading()
-  }
 
   onShareAppMessage(() => ({
     title: 'AI带你游' + attraction.value!.name
@@ -45,7 +23,7 @@
           <image :src="item" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <navigator :url="`/pages/guide/guide?id=${attraction.objectId}&name=${attraction.name}`">
+      <navigator :url="`/pages/guide/guide?id=${attraction.objectId}&attractionId=${attraction.objectId}`">
         <cover-image src="../../static/images/guide-main.png"></cover-image>
       </navigator>
     </template>

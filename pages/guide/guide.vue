@@ -1,61 +1,48 @@
 <script lang="ts" setup>
   import { ref } from "vue"
-  import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
-  import { alert } from '@/services/ui'
+  import { onShareAppMessage } from '@dcloudio/uni-app'
   import { useMap } from '@/use/map'
   import { useList } from '@/use/list'
-
-  let attractionName = ''
-  onLoad(query => {
-    if (query) {
-      attractionName = decodeURIComponent(query.name)
-    } else {
-      alert('请准确进入')
-    }
-  })
+  import { useAttraction } from '@/use/attraction'
 
   onShareAppMessage(() => ({
-    title: '来游玩' + attractionName + '吧'
+    title: '来游玩' + attraction.value?.name + '吧'
   }))
 
-  const area = ref<GuideArea>()
+  const { attraction } = useAttraction()
+
   const listRef = ref()
   const { list, } = useList()
   const { lnglat, markers, doMoveToArea } = useMap(list)
-  const areaIntroduceShow = ref(false)
 
   function onMarkerTap(e : DetailEvent) {
     // 这个id就是列表的index创建的
     const index = e.detail.markerId
     const item = list.value[index]
-    changeArea(item)
+    onChangeArea(item)
   }
 
-  function changeArea(item : GuideArea) {
+  function onChangeArea(item : GuideArea) {
     listRef.value.doMoveToArea(item)
     doMoveToArea(item)
-    doShowAreaPlayer(item)
-  }
-
-  function doShowAreaPlayer(item : GuideArea) {
-    // console.log(item)
-    area.value = item
-    areaIntroduceShow.value = true
+    uni.navigateTo({
+      url: `/pages/area-introduce/area-introduce?id=${item.objectId}&attractionId=${attraction.value?.objectId}`
+    })
   }
 </script>
 
 <template>
   <view class="page">
-    <map v-if="lnglat" :markers="markers" :longitude="lnglat.longitude" :latitude="lnglat.latitude" scale="14"
-      @markertap="onMarkerTap"></map>
-    <AreaList ref="listRef" :list="list" @change="changeArea"></AreaList>
-    <AreaIntroduce v-if="area && areaIntroduceShow" :area="area" @close="areaIntroduceShow = false" class="mask">
-    </AreaIntroduce>
+    <view class="map-container">
+      <map v-if="lnglat" class="w-100 h-100" :markers="markers" :longitude="lnglat.longitude"
+        :latitude="lnglat.latitude" scale="14" @markertap="onMarkerTap"></map>
+    </view>
+    <AreaList ref="listRef" :list="list" @change="onChangeArea"></AreaList>
   </view>
 </template>
 
 <style>
-  map {
+  .map-container {
     width: 100%;
     height: 62vh;
   }

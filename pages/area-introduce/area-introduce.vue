@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-  import { computed, ref } from 'vue'
-  import type { Ref } from 'vue'
+  import { computed, ref, watch, onUnmounted } from 'vue'
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
   import lc from '@/static/libs/lc'
-  import { alert, loading, unloading, toast, } from '@/services/ui'
+  import { alert, loading, unloading, } from '@/services/ui'
+  import { useAttraction } from '@/use/attraction'
 
-  const attractionQueriable = ref<AV.Queriable>()
+  const { attractionQueriable } = useAttraction()
   const areaQueriable = ref<AV.Queriable>()
 
   const area = computed(() => {
@@ -15,10 +15,7 @@
   })
 
   onLoad((query) => {
-    if (query && query.id) {
-      if (query && query.attractionId) {
-        getAttraction(query.attractionId)
-      }
+    if (query) {
       if (query.id) {
         getArea(query.id)
       }
@@ -34,21 +31,6 @@
   onShareAppMessage(() => ({
     title: areaQueriable.value!.get('name')
   }))
-
-  function getAttraction(objectId : string) {
-    lc.continueWithUser(async () => {
-      loading('获取中...')
-      try {
-        const ret = await lc.one('Attraction', q => {
-          q.equalTo('objectId', objectId)
-        })
-        attractionQueriable.value = ret
-      } catch (e) {
-        console.error(e)
-      }
-      unloading()
-    })
-  }
 
   function getArea(objectId : string) {
     lc.continueWithUser(async () => {
@@ -68,15 +50,77 @@
     })
   }
 
-  function onInitAreaIntroduce(params : any) {
-    console.log(params)
+  function onPreviewImame(list : string[], index : number) {
+    if (area.value) {
+      uni.previewImage({
+        urls: list,
+        current: list[index],
+      })
+    }
+  }
+
+  const styleIntroduceQueriables = ref<AV.Queriable[]>([])
+  const styleIntroduces = computed(() => {
+    return styleIntroduceQueriables.value.map((i : AV.Queriable) => i.toJSON())
+  })
+
+  const introduce = computed(() => {
+    if (styleIntroduces.value[0]) {
+      return styleIntroduces.value[0].introduce
+    } else {
+      return area.value.introduce
+    }
+  })
+
+  const voice = computed(() => {
+    const src = styleIntroduces.value[0] ? styleIntroduces.value[0].voice : ''
+    return src
+  })
+
+  watch(() => area.value, (val, oldVal) => {
+    if (val) {
+      getStyleIntroduce(area.value as GuideArea)
+    }
+  }, {
+    immediate: true
+  })
+
+  const isPlay = ref(false)
+  const ac = uni.createInnerAudioContext()
+  ac.onEnded(() => isPlay.value = false)
+  ac.onError(() => isPlay.value = false)
+
+  onUnmounted(() => {
+    ac.stop()
+  })
+
+  async function getStyleIntroduce(area : GuideArea) {
+    const ret = await lc.read('AreaIntroduce', q => {
+      q.equalTo('area', lc.createObject('Area', area.objectId))
+      q.descending('updatedAt')
+    })
+    styleIntroduceQueriables.value = ret
+  }
+
+  function onToggleAudio() {
+    if (styleIntroduces.value.length) {
+      const voice = styleIntroduces.value[0].voice
+      if (voice) {
+        ac.src = voice
+        isPlay.value = !isPlay.value
+        isPlay.value ? ac.play() : ac.pause()
+        // console.log(isPlay.value)
+      } else {
+        console.log('无音频')
+      }
+    } else {
+      console.log('无风格语音')
+    }
   }
 
   function onNavigateToAttraction() {
     if (attractionQueriable.value) {
-      uni.reLaunch({
-        url: '/pages/welcome/welcome?id=' + attractionQueriable.value!.id
-      })
+      uni.navigateBack()
     } else {
       uni.reLaunch({
         url: '/pages/index/index'
@@ -86,8 +130,27 @@
 </script>
 
 <template>
-  <AreaIntroduce v-if="area" :area="area" :closeShow="false" @init="onInitAreaIntroduce"></AreaIntroduce>
-  <view class="custom-navgator absolute">
+  <view class="component h-100 flex-c">
+    <template v-if="area">
+      <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
+        <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
+          @click.stop="onPreviewImame(area.coverImageList, index)">
+          <image class="w-100 h-100" :src="image" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
+      <view class="title bold mt-20 mb-10">{{area.name}}</view>
+      <view class="introduce f1 scroll-y pb-40"><text user-select>{{introduce}}</text></view>
+      <view class="controls mb-40">
+        <button v-if="voice" class="mt-10" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+      </view>
+      <!-- 调试用 -->
+      <!-- <view class="controls mb-40">
+        <button type="default" class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+      </view> -->
+    </template>
+  </view>
+  <!-- 设置为0是为了以后如果做组件时候使用 -->
+  <view v-if="0" class="custom-navgator absolute">
     <view class="custom-back absolute flex aic jcc" @click="onNavigateToAttraction">
       <image src="@/static/icons/back.png" mode=""></image>
     </view>
@@ -97,6 +160,36 @@
 <style>
   page {
     background: white;
+  }
+
+  .component {
+    padding: 10vw 5vw 0 5vw;
+    background-color: white;
+  }
+
+  swiper {
+    position: relative;
+    left: 9;
+    width: 90vw;
+    height: 90vw;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .introduce {
+    color: #999;
+  }
+
+  .controls button {
+    border-radius: 16px;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(135deg, #013EF6, #038EFE);
   }
 
   .custom-navgator {
