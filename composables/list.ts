@@ -21,7 +21,9 @@ export function useList() {
   onLoad(query => {
     if (query) {
       getAreaList(query.id)
-      getToiletList(query.id)
+        .then(() => {
+          getToiletList(query.id)
+        })
     } else {
       alert('请准确进入')
     }
@@ -48,6 +50,7 @@ export function useList() {
     })
     toiletList.value = ret.map(i => i.toJSON())
     unloading()
+    return Promise.resolve()
   }
 
   return {
