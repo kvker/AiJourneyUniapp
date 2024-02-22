@@ -3,7 +3,7 @@
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
   import lc from '@/services/lc'
   import { alert, loading, unloading, } from '@/services/ui'
-  import { useAttraction } from '@/use/attraction'
+  import { useAttraction } from '@/composables/attraction'
 
   const { attractionQueriable } = useAttraction()
   const areaQueriable = ref<AV.Queriable>()

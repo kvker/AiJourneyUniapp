@@ -1,9 +1,9 @@
 <script lang="ts" setup>
   import { ref } from "vue"
   import { onShareAppMessage } from '@dcloudio/uni-app'
-  import { useMap } from '@/use/map'
-  import { useList } from '@/use/list'
-  import { useAttraction } from '@/use/attraction'
+  import { useMap } from '@/composables/map'
+  import { useList } from '@/composables/list'
+  import { useAttraction } from '@/composables/attraction'
 
   onShareAppMessage(() => ({
     title: '来游玩' + attraction.value?.name + '吧'

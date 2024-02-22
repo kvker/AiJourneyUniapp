@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { ref } from 'vue'
   import { onShareAppMessage } from '@dcloudio/uni-app'
-  import { useAttraction } from '@/use/attraction'
+  import { useAttraction } from '@/composables/attraction'
   
   const { attraction } = useAttraction()
   const muted = ref(true)

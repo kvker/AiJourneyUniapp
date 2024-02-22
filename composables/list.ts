@@ -36,6 +36,7 @@ export function useList() {
     })
     areaList.value = ret.map(i => i.toJSON())
     unloading()
+    return Promise.resolve()
   }
 
   async function getToiletList(id : string) {
