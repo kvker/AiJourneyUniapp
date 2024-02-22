@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage, onReachBottom, onPullDownRefresh } from '@dcloudio/uni-app'
-  import lc from '@/static/libs/lc'
+  import lc from '@/services/lc'
   import { loading, unloading, } from '@/services/ui'
 
   type IndexAttraction = { objectId : string, name : string, introduce : string, introduceImageList : string[] }

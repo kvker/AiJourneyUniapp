@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
-import lc from '@/static/libs/lc'
+import lc from '@/services/lc'
 import { alert, loading, unloading, } from '@/services/ui'
 
 export function useList() {

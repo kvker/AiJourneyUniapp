@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { computed, ref, watch, onUnmounted } from 'vue'
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
-  import lc from '@/static/libs/lc'
+  import lc from '@/services/lc'
   import { alert, loading, unloading, } from '@/services/ui'
   import { useAttraction } from '@/use/attraction'
 

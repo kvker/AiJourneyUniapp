@@ -7,7 +7,7 @@
     onShow,
     onHide
   } from "@dcloudio/uni-app"
-  import lc from './static/libs/lc'
+  import lc from '@/services/lc'
 
   let global = inject('global')
   onLaunch(() => {

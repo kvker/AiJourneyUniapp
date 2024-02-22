@@ -1,7 +1,7 @@
 import { computed, shallowRef } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
-import lc from '@/static/libs/lc'
+import lc from '@/services/lc'
 import { alert, loading, unloading, } from '@/services/ui'
 import { wgs84togcj02 } from '@/services/map'
 

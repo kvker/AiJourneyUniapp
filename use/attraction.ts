@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading } from '@/services/ui'
-import lc from '@/static/libs/lc'
+import lc from '@/services/lc'
 
 
 export function useAttraction() {

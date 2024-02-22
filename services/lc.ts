@@ -1,5 +1,5 @@
-const AV = require("./av-core-min.js")
-const adapters = require("./leancloud-adapters-weapp.js")
+const AV = require("../static/libs/av-core-min.js")
+const adapters = require("../static/libs/leancloud-adapters-weapp.js")
 AV.setAdapters(adapters)
 
 if (!(AV.applicationId && AV.applicationKey)) {
@@ -203,6 +203,7 @@ const lc = {
         tryTimes++
         console.log({ tryTimes })
         if (tryTimes > maxTryTimes) {
+          clearInterval(interval)
           j(false)
         }
       }
