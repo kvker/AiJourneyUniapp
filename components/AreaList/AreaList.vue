@@ -52,6 +52,10 @@
 </template>
 
 <style>
+  scroll-view {
+    height: 62vh;
+  }
+  
   .area-list-component {
     padding: 20rpx;
     background-color: white;
