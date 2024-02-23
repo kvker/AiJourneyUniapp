@@ -53,7 +53,6 @@
 
 <style>
   .area-list-component {
-    height: 38vh;
     padding: 20rpx;
     background-color: white;
   }

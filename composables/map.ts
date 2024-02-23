@@ -1,4 +1,4 @@
-import { computed, shallowRef } from 'vue'
+import { computed, shallowRef, getCurrentInstance } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import lc from '@/services/lc'
@@ -7,6 +7,8 @@ import { wgs84togcj02 } from '@/services/map'
 
 // let isDev = false
 export function useMap(list : Ref<GuideItem[]>) {
+  const ctx = getCurrentInstance()
+  const mapContext = uni.createMapContext("map", ctx)
   onLoad(query => {
     if (query) {
       // isDev = query.id === '659e75a84700c26fdeda7874'
@@ -19,8 +21,8 @@ export function useMap(list : Ref<GuideItem[]>) {
   const lnglat : Ref<GuidePointer | null> = shallowRef(null)
 
   const markers = computed(() => {
-    let distance = 0.01
-    let angle = -36
+    // let distance = 0.01
+    // let angle = -36
     return list.value.map((i, index) => {
       // let longitude = i.lnglat.longitude
       // let latitude = i.lnglat.latitude
@@ -76,9 +78,33 @@ export function useMap(list : Ref<GuideItem[]>) {
     lnglat.value = { longitude, latitude }
   }
 
+  const onMoveToCenter = () => {
+    // 获取当前位置
+    uni.getLocation({
+      type: 'wgs84',
+      highAccuracyExpireTime: 3000,
+      success: ret => {
+        console.log(ret)
+        let [longitude, latitude] = wgs84togcj02(ret.longitude, ret.latitude)
+        mapContext.moveToLocation({
+          latitude,
+          longitude,
+          complete: res => {
+            console.log('移动完成:', res)
+          }
+        })
+      },
+      fail: error => {
+        console.error(error)
+      }
+    })
+    // 设置到当前位置为中心点
+  }
+
   return {
     lnglat,
     markers,
     doMoveToArea,
+    onMoveToCenter,
   }
 }
