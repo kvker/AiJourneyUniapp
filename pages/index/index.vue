@@ -36,7 +36,7 @@
   }
 
   onShareAppMessage(() => ({
-    title: 'AI导游大师'
+    title: '君有迹'
   }))
 
   onPullDownRefresh(() => {
@@ -52,7 +52,7 @@
 
 <template>
   <view class="page">
-    <CommonHeader title="AI导游大师"></CommonHeader>
+    <CommonHeader title="君有迹"></CommonHeader>
     <navigator v-for="(item) of list" :key="item.objectId" class="nav-item flex aic jcsb p-10"
       :url="`/pages/welcome/welcome?attractionId=${item.objectId}`">
       <image class="nav-image" :src="item.introduceImageList[0] + '?imageView2/2/h/200'" mode="aspectFill"></image>
