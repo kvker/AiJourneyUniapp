@@ -46,7 +46,7 @@ export function useMap(list : Ref<GuideItem[]>) {
       let [longitude, latitude] = wgs84togcj02(i.lnglat.longitude, i.lnglat.latitude)
       return {
         id: index,
-        iconPath: `/static/images/marker-${i.type}.png`,
+        iconPath: `/static/icons/marker-${i.type}.png`,
         latitude,
         longitude,
         width: 20,
