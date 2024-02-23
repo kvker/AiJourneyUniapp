@@ -3,7 +3,10 @@ import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import lc from '@/services/lc'
 import { alert, loading, unloading, } from '@/services/ui'
-import { wgs84togcj02 } from '@/services/map'
+
+/**
+ * 此 composable 需要注意，下发的数据是 GPS 定位，而小程序使用的是 GCJ 定位，每次使用记得转换。
+ */
 
 // let isDev = false
 export function useMap(list : Ref<GuideItem[]>) {
@@ -43,12 +46,11 @@ export function useMap(list : Ref<GuideItem[]>) {
       //     isDev = false
       //   }
       // }
-      let [longitude, latitude] = wgs84togcj02(i.lnglat.longitude, i.lnglat.latitude)
       return {
         id: index,
         iconPath: `/static/icons/marker-${i.type}.png`,
-        latitude,
-        longitude,
+        latitude: i.lnglat.latitude,
+        longitude: i.lnglat.longitude,
         width: 20,
         height: 20,
         callout: {
@@ -69,13 +71,18 @@ export function useMap(list : Ref<GuideItem[]>) {
 
   async function doGetAttraction(id : string) {
     loading()
-    const ret = await lc.one('Attraction', q => {
-      q.equalTo('objectId', id)
-      q.select(['lnglat'])
-    }).then(ret => ret.toJSON())
-    unloading()
-    let [longitude, latitude] = wgs84togcj02(ret.lnglat.longitude, ret.lnglat.latitude)
-    lnglat.value = { longitude, latitude }
+    try {
+      const ret = await lc.one('Attraction', q => {
+        q.equalTo('objectId', id)
+        q.select(['lnglat'])
+      }).then(ret => ret.toJSON())
+      lnglat.value = ret.lnglat
+    } catch (e) {
+      //TODO handle the exception
+      console.error(e)
+    } finally {
+      unloading()
+    }
   }
 
   const onMoveToCenter = () => {
@@ -84,11 +91,10 @@ export function useMap(list : Ref<GuideItem[]>) {
       type: 'wgs84',
       highAccuracyExpireTime: 3000,
       success: ret => {
-        console.log(ret)
-        let [longitude, latitude] = wgs84togcj02(ret.longitude, ret.latitude)
+        // console.log(ret)
         mapContext.moveToLocation({
-          latitude,
-          longitude,
+          latitude: ret.longitude,
+          longitude: ret.latitude,
           complete: res => {
             console.log('移动完成:', res)
           }
