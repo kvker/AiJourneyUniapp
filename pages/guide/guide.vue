@@ -22,12 +22,14 @@
     onChangeArea(item)
   }
 
-  function onChangeArea(item : GuideArea) {
+  function onChangeArea(item : GuideItem) {
     listRef.value.doMoveToArea(item)
     doMoveToArea(item)
-    uni.navigateTo({
-      url: `/pages/area-introduce/area-introduce?id=${item.objectId}&attractionId=${attraction.value?.objectId}`
-    })
+    if (item.type === 'area') {
+      uni.navigateTo({
+        url: `/pages/area-introduce/area-introduce?id=${item.objectId}&attractionId=${attraction.value?.objectId}`
+      })
+    }
   }
 </script>
 
