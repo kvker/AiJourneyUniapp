@@ -135,7 +135,7 @@
       <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
         <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
           @click.stop="onPreviewImame(area.coverImageList, index)">
-          <image class="w-100 h-100" :src="image" mode="aspectFill"></image>
+          <image class="w-100 h-100" :src="image + '?imageView2/2/h/800'" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
       <view class="title bold mt-20 mb-10">{{area.name}}</view>
