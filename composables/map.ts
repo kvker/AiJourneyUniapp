@@ -86,32 +86,9 @@ export function useMap(list : Ref<GuideItem[]>) {
     }
   }
 
-  const onMoveToCenter = () => {
-    // 获取当前位置
-    uni.getLocation({
-      type: 'wgs84',
-      highAccuracyExpireTime: 3000,
-      success: ret => {
-        // console.log(ret)
-        mapContext.moveToLocation({
-          latitude: ret.longitude,
-          longitude: ret.latitude,
-          complete: res => {
-            console.log('移动完成:', res)
-          }
-        })
-      },
-      fail: error => {
-        console.error(error)
-      }
-    })
-    // 设置到当前位置为中心点
-  }
-
   return {
     lnglat,
     markers,
     doMoveToArea,
-    onMoveToCenter,
   }
 }

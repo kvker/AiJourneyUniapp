@@ -55,12 +55,8 @@
             "urlCheck" : false
         },
         "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : "获取周边景点信息"
-            }
-        },
-        "requiredPrivateInfos" : [ "getLocation" ],
+        "permission" : {},
+        "requiredPrivateInfos" : [],
         "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {

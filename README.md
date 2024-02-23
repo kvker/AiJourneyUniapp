@@ -1,4 +1,4 @@
-# AI导游大师
+# 君有迹
 
 后台管理 + 小程序 + H5 + Web门户 + APP（含鸿蒙） + Serverless + 大模型（ChatGLM） + 天地图 + TypeScript。
 
@@ -6,9 +6,9 @@
 
 服务端届时开源会使用 Express，并且核心数据使用环境变量方式供自行导入。
 
-## AI导游大师小程序端
+## 君有迹小程序端
 
-本应用为AI导游大师个人项目微信小程序端。建议使用 HBuilderX 打开, 由于内容比较简单, 后期可能采用原生, 目前是考虑到多小程序平台, 故而使用 UniAPP.
+本应用为君有迹个人项目微信小程序端。建议使用 HBuilderX 打开, 由于内容比较简单, 后期可能采用原生, 目前是考虑到多小程序平台, 故而使用 UniAPP.
 
 技术栈目前为：UniAPP + Vue3 + Vitest + LeanCloud（Serverless） + TypeScript。
 

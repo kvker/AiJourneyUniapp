@@ -13,7 +13,7 @@
 
   const listRef = ref()
   const { list, } = useList()
-  const { lnglat, markers, doMoveToArea, onMoveToCenter } = useMap(list)
+  const { lnglat, markers, doMoveToArea } = useMap(list)
 
   function onMarkerTap(e : DetailEvent) {
     // 这个id就是列表的index创建的
@@ -38,7 +38,6 @@
     <view class="map-container">
       <map v-if="lnglat" id="map" class="w-100 h-100" :markers="markers" :longitude="lnglat.longitude"
         :latitude="lnglat.latitude" scale="16" @markertap="onMarkerTap"></map>
-      <cover-image class="center-icon" src="@/static/icons/center-focus.png" @click="onMoveToCenter"></cover-image>
     </view>
     <AreaList ref="listRef" :list="list" @change="onChangeArea"></AreaList>
   </view>
