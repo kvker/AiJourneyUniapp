@@ -3,13 +3,13 @@
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage, onReachBottom, onPullDownRefresh } from '@dcloudio/uni-app'
   import { loading, unloading, } from '@/services/ui'
+  import { db } from '@/services/db'
 
   type IndexAttraction = { _id : string, name : string, introduce : string, introduceImageList : string[] }
 
   let _page = 0
   const _size = 10
   const list : Ref<IndexAttraction[]> = ref([])
-  const db = wx.cloud.database()
 
   onLoad(() => {
     getAttractionList()

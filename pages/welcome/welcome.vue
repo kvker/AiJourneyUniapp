@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import { onShareAppMessage } from '@dcloudio/uni-app'
   import { useAttraction } from '@/composables/attraction'
-  
+
   const { attraction } = useAttraction()
   const muted = ref(true)
 
@@ -23,7 +23,7 @@
           <image :src="item" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <navigator :url="`/pages/guide/guide?id=${attraction.objectId}&attractionId=${attraction.objectId}`">
+      <navigator :url="`/pages/guide/guide?id=${attraction._id}&attractionId=${attraction._id}`">
         <cover-image src="../../static/images/guide-main.png"></cover-image>
       </navigator>
     </template>

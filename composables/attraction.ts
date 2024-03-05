@@ -1,9 +1,8 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading } from '@/services/ui'
-import lc from '@/services/lc'
-
+import { db } from '@/services/db'
 
 export function useAttraction() {
   onLoad(query => {
@@ -14,20 +13,20 @@ export function useAttraction() {
     }
   })
 
-  const attractionQueriable : Ref<AV.Object | null> = ref(null)
-  const attraction = computed<GuideAttraction>(() => {
-    if (attractionQueriable.value) {
-      return attractionQueriable.value.toJSON()
-    }
-  })
+  const attraction : Ref<GuideAttraction> = ref(null)
 
   async function getAttraction(id : string) {
     loading()
-    attractionQueriable.value = await lc.one('Attraction', q => {
-      q.equalTo('objectId', id)
-    })
+    try {
+      const { data } = await db.collection('JAttraction')
+        .doc(id)
+        .get()
+      attraction.value = data as GuideAttraction
+    } catch (e) {
+      //TODO handle the exception
+    }
     unloading()
   }
 
-  return { attractionQueriable, attraction }
+  return { attraction }
 }
