@@ -1,9 +1,9 @@
 import { computed, shallowRef, getCurrentInstance } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
-import lc from '@/services/lc'
 import { alert, loading, unloading, } from '@/services/ui'
 import { wgs84togcj02 } from '@/services/map'
+import { db } from '@/services/db'
 
 /**
  * 此 composable 需要注意，下发的数据是 GPS 定位，而小程序使用的是 GCJ 定位，每次使用记得转换。
@@ -15,7 +15,7 @@ export function useMap(list : Ref<GuideItem[]>) {
   onLoad(query => {
     if (query) {
       // isDev = query.id === '659e75a84700c26fdeda7874'
-      doGetAttraction(query.id)
+      getAttraction(query.id)
     } else {
       alert('请准确进入')
     }
@@ -48,14 +48,13 @@ export function useMap(list : Ref<GuideItem[]>) {
     lnglat.value = item.lnglat
   }
 
-  async function doGetAttraction(id : string) {
+  async function getAttraction(id : string) {
     loading()
     try {
-      const ret = await lc.one('Attraction', q => {
-        q.equalTo('objectId', id)
-        q.select(['lnglat'])
-      }).then(ret => ret.toJSON())
-      const [longitude, latitude] = wgs84togcj02(ret.lnglat.longitude, ret.lnglat.latitude)
+      const { data: attraction } = await db.collection('JAttraction')
+        .doc(id)
+        .get()
+      const [longitude, latitude] = wgs84togcj02(attraction.lnglat.longitude, attraction.lnglat.latitude)
       lnglat.value = { longitude, latitude }
     } catch (e) {
       console.error(e)
