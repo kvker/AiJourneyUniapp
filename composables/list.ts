@@ -46,7 +46,7 @@ export function useList() {
         .where({
           _attractionId: id,
         })
-        .orderBy('createdAt', 'desc')
+        .orderBy('createdAt', 'asc')
         .get()
       areaList.value = data.map(item => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
@@ -67,7 +67,7 @@ export function useList() {
         .where({
           _attractionId: id,
         })
-        .orderBy('createdAt', 'desc')
+        .orderBy('createdAt', 'asc')
         .get()
       toiletList.value = data.map(item => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
@@ -90,7 +90,7 @@ export function useList() {
         .where({
           _attractionId: id,
         })
-        .orderBy('createdAt', 'desc')
+        .orderBy('createdAt', 'asc')
         .get()
       attentionList.value = data.map(item => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
