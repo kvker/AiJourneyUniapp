@@ -1,18 +1,13 @@
 <script lang="ts" setup>
   import { computed, ref, watch, onUnmounted } from 'vue'
+  import type { Ref } from 'vue'
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
-  import lc from '@/services/lc'
   import { alert, loading, unloading, } from '@/services/ui'
   import { useAttraction } from '@/composables/attraction'
+  import { db } from '@/services/db'
 
-  const { attractionQueriable } = useAttraction()
-  const areaQueriable = ref<AV.Queriable>()
-
-  const area = computed(() => {
-    if (areaQueriable.value) {
-      return areaQueriable.value.toJSON()
-    }
-  })
+  const { attraction } = useAttraction()
+  const area = ref<GuideArea>()
 
   onLoad((query) => {
     if (query) {
@@ -29,25 +24,21 @@
   onPullDownRefresh(() => { })
 
   onShareAppMessage(() => ({
-    title: areaQueriable.value!.get('name')
+    title: area.value!.name
   }))
 
-  function getArea(objectId : string) {
-    lc.continueWithUser(async () => {
-      loading('获取中...')
-      try {
-        const ret = await lc.one('Area', q => {
-          q.equalTo('objectId', objectId)
-        })
-        areaQueriable.value = ret
-        uni.setNavigationBarTitle({
-          title: areaQueriable.value.get('name')
-        })
-      } catch (e) {
-        console.error(e)
-      }
+  async function getArea(id : string) {
+    loading()
+    try {
+      const { data } = await db.collection('JArea')
+        .doc(id)
+        .get()
+      area.value = data as GuideArea
+    } catch (e) {
+      console.error(e)
+    } finally {
       unloading()
-    })
+    }
   }
 
   function onPreviewImame(list : string[], index : number) {
@@ -59,16 +50,13 @@
     }
   }
 
-  const styleIntroduceQueriables = ref<AV.Queriable[]>([])
-  const styleIntroduces = computed(() => {
-    return styleIntroduceQueriables.value.map((i : AV.Queriable) => i.toJSON())
-  })
+  const styleIntroduces : Ref<GuideStyleIntroduce[]> = ref([])
 
   const introduce = computed(() => {
     if (styleIntroduces.value[0]) {
       return styleIntroduces.value[0].introduce
     } else {
-      return area.value.introduce
+      return area.value!.introduce
     }
   })
 
@@ -77,7 +65,7 @@
     return src
   })
 
-  watch(() => area.value, (val, oldVal) => {
+  watch(() => area.value, (val) => {
     if (val) {
       getStyleIntroduce(area.value as GuideArea)
     }
@@ -95,11 +83,14 @@
   })
 
   async function getStyleIntroduce(area : GuideArea) {
-    const ret = await lc.read('AreaIntroduce', q => {
-      q.equalTo('area', lc.createObject('Area', area.objectId))
-      q.descending('updatedAt')
-    })
-    styleIntroduceQueriables.value = ret
+    const { data } = await db.collection('JAreaIntroduce')
+      .where({
+        _areaId: area._id,
+      })
+      .orderBy('updatedAt', 'desc')
+      .get()
+
+    styleIntroduces.value = data as GuideStyleIntroduce[]
   }
 
   function onToggleAudio() {
@@ -119,7 +110,7 @@
   }
 
   function onNavigateToAttraction() {
-    if (attractionQueriable.value) {
+    if (attraction.value) {
       uni.navigateBack()
     } else {
       uni.reLaunch({
