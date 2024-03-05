@@ -108,16 +108,6 @@
       console.log('无风格语音')
     }
   }
-
-  function onNavigateToAttraction() {
-    if (attraction.value) {
-      uni.navigateBack()
-    } else {
-      uni.reLaunch({
-        url: '/pages/index/index'
-      })
-    }
-  }
 </script>
 
 <template>
@@ -139,12 +129,6 @@
         <button type="default" class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
       </view> -->
     </template>
-  </view>
-  <!-- 设置为0是为了以后如果做组件时候使用 -->
-  <view v-if="0" class="custom-navgator absolute">
-    <view class="custom-back absolute flex aic jcc" @click="onNavigateToAttraction">
-      <image src="@/static/icons/back.png" mode=""></image>
-    </view>
   </view>
 </template>
 
