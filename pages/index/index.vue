@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-  import { ref, inject } from 'vue'
+  import { ref } from 'vue'
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage, onReachBottom, onPullDownRefresh } from '@dcloudio/uni-app'
   import { loading, unloading, } from '@/services/ui'
 
-  type IndexAttraction = { objectId : string, name : string, introduce : string, introduceImageList : string[] }
+  type IndexAttraction = { _id : string, name : string, introduce : string, introduceImageList : string[] }
 
   let _page = 0
   const _size = 10
@@ -50,8 +50,8 @@
 <template>
   <view class="page">
     <CommonHeader title="君有迹"></CommonHeader>
-    <navigator v-for="(item) of list" :key="item.objectId" class="nav-item flex aic jcsb p-10"
-      :url="`/pages/welcome/welcome?attractionId=${item.objectId}`">
+    <navigator v-for="(item) of list" :key="item._id" class="nav-item flex aic jcsb p-10"
+      :url="`/pages/welcome/welcome?attractionId=${item._id}`">
       <image class="nav-image" :src="item.introduceImageList[0] + '?imageView2/2/h/200'" mode="aspectFill"></image>
       <view class="info flex-c jcsa h-100">
         <text class="font-bold">{{item.name}}</text>
