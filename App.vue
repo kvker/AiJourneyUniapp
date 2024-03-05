@@ -1,24 +1,20 @@
 <script lang="ts" setup>
   import {
-    inject
+    inject,
+    provide,
   } from 'vue'
   import {
     onLaunch,
     onShow,
     onHide
   } from "@dcloudio/uni-app"
-  import lc from '@/services/lc'
+
+  wx.cloud.init()
 
   let global = inject('global')
   onLaunch(() => {
     // console.log('App Launch')
-    lc.loginWithWeChat()
-      // .then(user => {
-      //   console.log(user)
-      //   console.log('auto login success')
-      // })
-      .catch(console.error)
-    // console.log({ global })
+    console.log({ global })
   })
   onShow(() => {
     // console.log('App Show')
@@ -37,7 +33,7 @@
   .page {
     background: linear-gradient(180deg, #D4E3FF 0%, #FFF 100%);
   }
-  
+
   .component {
     height: 100vh;
   }

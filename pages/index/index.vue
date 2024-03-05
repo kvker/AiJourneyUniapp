@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ref, inject } from 'vue'
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage, onReachBottom, onPullDownRefresh } from '@dcloudio/uni-app'
-  import lc from '@/services/lc'
   import { loading, unloading, } from '@/services/ui'
 
   type IndexAttraction = { objectId : string, name : string, introduce : string, introduceImageList : string[] }
@@ -10,29 +9,27 @@
   let _page = 0
   const _size = 10
   const list : Ref<IndexAttraction[]> = ref([])
+  const db = wx.cloud.database()
 
   onLoad(() => {
     getAttractionList()
   })
 
-  function getAttractionList() {
-    lc.continueWithUser(async () => {
-      loading()
-      try {
-        const ret = await lc.read('Attraction', (q : AV.Query<AV.Object>) => {
-          q.descending('createdAt')
-          q.limit(_size)
-          q.skip(_page * _size)
-          q.select(['name', 'introduceImageList', 'introduce'])
-        })
-        list.value = [...list.value, ...ret.map(i => i.toJSON())]
-        _page++
-        uni.stopPullDownRefresh()
-      } catch (e) {
-        console.error(e)
-      }
+  async function getAttractionList() {
+    loading()
+    try {
+      const { data } = await db.collection('JAttraction')
+        .skip(_page * _size)
+        .limit(_size)
+        .get()
+      list.value = [...list.value, ...data as IndexAttraction[]]
+      _page++
+    } catch (e) {
+      console.error(e)
+    } finally {
       unloading()
-    })
+      uni.stopPullDownRefresh()
+    }
   }
 
   onShareAppMessage(() => ({
@@ -76,8 +73,8 @@
     height: 80px;
     border-radius: 50%;
   }
-  
-  .info  {
+
+  .info {
     width: calc(100% - 100px);
   }
 </style>
