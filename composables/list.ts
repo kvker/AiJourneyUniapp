@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading, } from '@/services/ui'
 import { wgs84togcj02 } from '@/services/map'
-import { db } from '@/services/db'
+import { db } from '@/services/cloud'
 
 export function useList() {
   const areaList : Ref<GuideArea[]> = ref([])
@@ -44,7 +44,7 @@ export function useList() {
     try {
       const { data } = await db.collection('JArea')
         .where({
-          _attractionId: id,
+          attractionId: id,
         })
         .orderBy('createdAt', 'asc')
         .get()
@@ -65,7 +65,7 @@ export function useList() {
     try {
       const { data } = await db.collection('JToilet')
         .where({
-          _attractionId: id,
+          attractionId: id,
         })
         .orderBy('createdAt', 'asc')
         .get()
@@ -88,7 +88,7 @@ export function useList() {
     try {
       const { data } = await db.collection('JAttention')
         .where({
-          _attractionId: id,
+          attractionId: id,
         })
         .orderBy('createdAt', 'asc')
         .get()
