@@ -85,7 +85,7 @@
   async function getStyleIntroduce(area : GuideArea) {
     const { data } = await db.collection('JAreaIntroduce')
       .where({
-        _areaId: area._id,
+        areaId: area._id,
       })
       .orderBy('updatedAt', 'desc')
       .get()
