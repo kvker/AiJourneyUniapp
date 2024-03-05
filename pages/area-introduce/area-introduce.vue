@@ -4,7 +4,7 @@
   import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
   import { alert, loading, unloading, } from '@/services/ui'
   import { useAttraction } from '@/composables/attraction'
-  import { db } from '@/services/db'
+  import { db } from '@/services/cloud'
 
   const { attraction } = useAttraction()
   const area = ref<GuideArea>()

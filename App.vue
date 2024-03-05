@@ -9,8 +9,6 @@
     onHide
   } from "@dcloudio/uni-app"
 
-  wx.cloud.init()
-
   let global = inject('global')
   onLaunch(() => {
     // console.log('App Launch')

@@ -3,7 +3,7 @@
   import type { Ref } from 'vue'
   import { onLoad, onShareAppMessage, onReachBottom, onPullDownRefresh } from '@dcloudio/uni-app'
   import { loading, unloading, } from '@/services/ui'
-  import { db } from '@/services/db'
+  import { db } from '@/services/cloud'
 
   type IndexAttraction = { _id : string, name : string, introduce : string, introduceImageList : string[] }
 

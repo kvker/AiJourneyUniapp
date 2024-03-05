@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading, } from '@/services/ui'
 import { wgs84togcj02 } from '@/services/map'
-import { db } from '@/services/db'
+import { db } from '@/services/cloud'
 
 /**
  * 此 composable 需要注意，下发的数据是 GPS 定位，而小程序使用的是 GCJ 定位，每次使用记得转换。

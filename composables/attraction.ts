@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading } from '@/services/ui'
-import { db } from '@/services/db'
+import { db } from '@/services/cloud'
 
 export function useAttraction() {
   onLoad(query => {
