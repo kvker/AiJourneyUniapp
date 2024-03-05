@@ -1,6 +1,3 @@
-type GlobalProvide = {
-  lc : AV.Object
-}
 type base64 = string
 
 type BaseObject = {
