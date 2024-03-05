@@ -12,7 +12,6 @@ import { wgs84togcj02 } from '@/services/map'
 // let isDev = false
 export function useMap(list : Ref<GuideItem[]>) {
   const ctx = getCurrentInstance()
-  const mapContext = uni.createMapContext("map", ctx)
   onLoad(query => {
     if (query) {
       // isDev = query.id === '659e75a84700c26fdeda7874'
@@ -25,28 +24,7 @@ export function useMap(list : Ref<GuideItem[]>) {
   const lnglat : Ref<GuidePointer | null> = shallowRef(null)
 
   const markers = computed(() => {
-    // let distance = 0.01
-    // let angle = -36
     return list.value.map((i, index) => {
-      // let longitude = i.lnglat.longitude
-      // let latitude = i.lnglat.latitude
-      // if (isDev) {
-      //   longitude = lnglat.value!.longitude
-      //   latitude = lnglat.value!.latitude
-      //   if (i === list.value[0]) {
-      //     latitude += distance
-      //   } else {
-      //     angle += 360 / (list.value.length - 1)
-      //     longitude += distance * Math.cos(angle)
-      //     latitude += distance * Math.sin(angle)
-      //   }
-      //   i.lnglat.longitude = longitude
-      //   i.lnglat.latitude = latitude
-      //   // 测试标记要清掉，不然后面变更中心会一直重新算
-      //   if (index === list.value.length - 1) {
-      //     isDev = false
-      //   }
-      // }
       return {
         id: index,
         iconPath: `/static/icons/marker-${i.type}.png`,
