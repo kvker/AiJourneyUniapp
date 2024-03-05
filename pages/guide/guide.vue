@@ -27,7 +27,7 @@
     doMoveToArea(item)
     if (item.type === 'area') {
       uni.navigateTo({
-        url: `/pages/area-introduce/area-introduce?id=${item.objectId}&attractionId=${attraction.value?.objectId}`
+        url: `/pages/area-introduce/area-introduce?id=${item._id}&attractionId=${attraction.value?._id}`
       })
     }
   }
