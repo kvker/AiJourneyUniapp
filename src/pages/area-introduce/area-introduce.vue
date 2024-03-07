@@ -122,11 +122,11 @@
       <view class="title bold mt-20 mb-10">{{area.name}}</view>
       <view class="introduce f1 scroll-y pb-40"><text user-select>{{introduce}}</text></view>
       <view class="controls mb-40">
-        <button v-if="voice" class="mt-10" type="default" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button v-if="voice" class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
       </view>
       <!-- 调试用 -->
       <!-- <view class="controls mb-40">
-        <button type="default" class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
       </view> -->
     </template>
   </view>
