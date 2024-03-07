@@ -1,44 +1,45 @@
+declare const wx: any
 type base64 = string
 
 type BaseObject = {
-  [key : string] : any
+  [key: string]: any
 }
 
 type BaseDomObject = {
-  [key : string] : HTMLElement
+  [key: string]: HTMLElement
 }
 
 type Function = {
-  before(fn : any) : void,
-  after(fn : any) : void,
+  before(fn: any): void,
+  after(fn: any): void,
 }
 
 type LCRequest = {
-  params : any,
-  currentUser : any,
-  expressReq : any,
-  params : any,
-  object : any,
-  meta : any,
-  user : any,
-  currentUser : any,
+  params: any,
+  currentUser: any,
+  expressReq: any,
+  params: any,
+  object: any,
+  meta: any,
+  user: any,
+  currentUser: any,
   sessionToken,
 }
 
 type LCResponse = {
-  code : number,
-  msg : string,
-  data : any,
-  error ?: any,
+  code: number,
+  msg: string,
+  data: any,
+  error?: any,
 }
 
 type LCAuthData = {
-  uid ?: string
-  openid : string
+  uid?: string
+  openid: string
 }
 
 type LCError = Error & {
-  rawMessage : string,
+  rawMessage: string,
 }
 
 // type LCQuery = {
@@ -58,20 +59,20 @@ type LCError = Error & {
 // }
 
 type LCRuleResponse = {
-  code : number,
-  msg : string,
-  error ?: Error | string,
-  data ?: Object | string
+  code: number,
+  msg: string,
+  error?: Error | string,
+  data?: Object | string
 }
 
 type QRItem = {
-  image : string, // 图片
-  description : string, // 描述
-  avatar ?: string, // 头像
-  contacts ?: string[],
-  cover ?: string, // 背景图
+  image: string, // 图片
+  description: string, // 描述
+  avatar?: string, // 头像
+  contacts?: string[],
+  cover?: string, // 背景图
 }
 
 type DetailEvent = {
-  detail : BaseObject
+  detail: BaseObject
 }

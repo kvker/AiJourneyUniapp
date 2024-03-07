@@ -1,4 +1,4 @@
-export const toast = (text : string, options : { status ?: 'success' | 'error' | 'none' } = {}) => {
+export const toast = (text: string, options: { status?: 'success' | 'error' | 'none' } = {}) => {
   uni.showToast({
     title: text,
     icon: options.status || 'none',
@@ -6,7 +6,7 @@ export const toast = (text : string, options : { status ?: 'success' | 'error' |
 }
 
 
-export const loading = (text : string = '加载中...', options : {} = {}) => {
+export const loading = (text: string = '加载中...', options: {} = {}) => {
   uni.showLoading({
     title: text,
     mask: true
@@ -17,14 +17,14 @@ export const unloading = () => {
   uni.hideLoading()
 }
 
-export const alert = (text : string, options : {} = {}) => {
+export const alert = (text: string, options: {} = {}) => {
   uni.showModal({
     content: text,
     showCancel: false,
   })
 }
 
-export const confirm = (text : string, options : {} = {}) => {
+export const confirm = (text: string, options: {} = {}) => {
   return new Promise((s, j) => {
     uni.showModal({
       content: text,
@@ -39,7 +39,7 @@ export const confirm = (text : string, options : {} = {}) => {
   })
 }
 
-export const autoLoaing = async (text : string, cb : () => Promise<any>, options : {} = {}) => {
+export const autoLoaing = async (text: string, cb: () => Promise<any>, options: {} = {}) => {
   loading(text)
   await cb()
   unloading()

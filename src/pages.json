@@ -15,15 +15,12 @@
     {
       "path": "pages/guide/guide",
       "style": {
-        "navigationBarTitleText": "",
         "enablePullDownRefresh": false
-
       }
     },
     {
       "path": "pages/area-introduce/area-introduce",
       "style": {
-        "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
     }

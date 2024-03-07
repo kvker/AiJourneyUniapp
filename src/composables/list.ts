@@ -6,9 +6,9 @@ import { wgs84togcj02 } from '@/services/map'
 import { db } from '@/services/cloud'
 
 export function useList() {
-  const areaList : Ref<GuideArea[]> = ref([])
-  const toiletList : Ref<GuideToilet[]> = ref([])
-  const attentionList : Ref<GuideAttention[]> = ref([])
+  const areaList: Ref<GuideArea[]> = ref([])
+  const toiletList: Ref<GuideToilet[]> = ref([])
+  const attentionList: Ref<GuideAttention[]> = ref([])
   const list = computed(() => {
     return [...areaList.value.map(i => {
       let item = i as GuideItem
@@ -39,7 +39,7 @@ export function useList() {
     }
   })
 
-  async function getAreaList(id : string) {
+  async function getAreaList(id: string) {
     loading()
     try {
       const { data } = await db.collection('JArea')
@@ -48,7 +48,7 @@ export function useList() {
         })
         .orderBy('createdAt', 'asc')
         .get()
-      areaList.value = data.map(item => {
+      areaList.value = data.map((item: GuideArea) => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
         const [longitude, latitude] = wgs84togcj02(item.lnglat.longitude, item.lnglat.latitude)
         return {
@@ -61,7 +61,7 @@ export function useList() {
     }
   }
 
-  async function getToiletList(id : string) {
+  async function getToiletList(id: string) {
     try {
       const { data } = await db.collection('JToilet')
         .where({
@@ -69,7 +69,7 @@ export function useList() {
         })
         .orderBy('createdAt', 'asc')
         .get()
-      toiletList.value = data.map(item => {
+      toiletList.value = data.map((item: GuideToilet) => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
         const [longitude, latitude] = wgs84togcj02(item.lnglat.longitude, item.lnglat.latitude)
         return {
@@ -84,7 +84,7 @@ export function useList() {
     }
   }
 
-  async function getAttentionList(id : string) {
+  async function getAttentionList(id: string) {
     try {
       const { data } = await db.collection('JAttention')
         .where({
@@ -92,7 +92,7 @@ export function useList() {
         })
         .orderBy('createdAt', 'asc')
         .get()
-      attentionList.value = data.map(item => {
+      attentionList.value = data.map((item: GuideAttention) => {
         // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
         const [longitude, latitude] = wgs84togcj02(item.lnglat.longitude, item.lnglat.latitude)
         return {

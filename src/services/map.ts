@@ -7,19 +7,19 @@ const ee = 0.00669342162296594323
 
 /**
  * 判断是否在国内，不在国内则不做偏移
- * @param {*} lng 
- * @param {*} lat 
+ * @param {*} lng
+ * @param {*} lat
  */
-const outOfChina = (lng : number, lat : number) => {
+const outOfChina = (lng: number, lat: number) => {
   return (lng < 72.004 || lng > 137.8347) || ((lat < 0.8293 || lat > 55.8271) || false)
 }
 
 /**
  * 经度转换
- * @param { Number } lng 
- * @param { Number } lat 
+ * @param { Number } lng
+ * @param { Number } lat
  */
-function transformlat(lng : number, lat : number) {
+function transformlat(lng: number, lat: number) {
   var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng))
   ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0
   ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0
@@ -29,10 +29,10 @@ function transformlat(lng : number, lat : number) {
 
 /**
  * 纬度转换
- * @param { Number } lng 
- * @param { Number } lat 
+ * @param { Number } lng
+ * @param { Number } lat
  */
-function transformlng(lng : number, lat : number) {
+function transformlng(lng: number, lat: number) {
   var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng))
   ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0
   ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0
@@ -46,7 +46,7 @@ function transformlng(lng : number, lat : number) {
  * @param { Number } bd_lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const bd09togcj02 = (bd_lon : number, bd_lat : number) => {
+const bd09togcj02 = (bd_lon: number, bd_lat: number) => {
   var x_pi = 3.14159265358979324 * 3000.0 / 180.0
   var x = bd_lon - 0.0065
   var y = bd_lat - 0.006
@@ -63,7 +63,7 @@ const bd09togcj02 = (bd_lon : number, bd_lat : number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const gcj02tobd09 = (lng : number, lat : number) => {
+const gcj02tobd09 = (lng: number, lat: number) => {
   var z = Math.sqrt(lng * lng + lat * lat) + 0.00002 * Math.sin(lat * x_PI)
   var theta = Math.atan2(lat, lng) + 0.000003 * Math.cos(lng * x_PI)
   var bd_lng = z * Math.cos(theta) + 0.0065
@@ -77,7 +77,7 @@ const gcj02tobd09 = (lng : number, lat : number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-export const wgs84togcj02 = (lng : number, lat : number) => {
+export const wgs84togcj02 = (lng: number, lat: number) => {
   if (outOfChina(lng, lat)) {
     return [lng, lat]
   }
@@ -102,7 +102,7 @@ export const wgs84togcj02 = (lng : number, lat : number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const gcj02towgs84 = (lng : number, lat : number) => {
+const gcj02towgs84 = (lng: number, lat: number) => {
   if (outOfChina(lng, lat)) {
     return [lng, lat]
   }
@@ -127,7 +127,7 @@ const gcj02towgs84 = (lng : number, lat : number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const bd09towgs84 = (lng : number, lat : number) => {
+const bd09towgs84 = (lng: number, lat: number) => {
   // 百度坐标系先转为火星坐标系
   const gcj02 = bd09togcj02(lng, lat)
   // 火星坐标系转wgs84坐标系
@@ -141,7 +141,7 @@ const bd09towgs84 = (lng : number, lat : number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const wgs84tobd09 = (lng : number, lat : number) => {
+const wgs84tobd09 = (lng: number, lat: number) => {
   // wgs84先转为火星坐标系
   const gcj02 = wgs84togcj02(lng, lat)
   // 火星坐标系转百度坐标系

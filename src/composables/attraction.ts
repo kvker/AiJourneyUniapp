@@ -13,9 +13,9 @@ export function useAttraction() {
     }
   })
 
-  const attraction : Ref<GuideAttraction> = ref(null)
+  const attraction: Ref<GuideAttraction | undefined> = ref()
 
-  async function getAttraction(id : string) {
+  async function getAttraction(id: string) {
     loading()
     try {
       const { data } = await db.collection('JAttraction')

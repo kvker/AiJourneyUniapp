@@ -14,10 +14,7 @@
       "dom"
     ],
     "types": [
-      "@dcloudio/types",
-      "./src/types/common.d.ts",
-      "./src/types/glm.d.ts",
-      "./src/types/guide.d.ts"
+      "@dcloudio/types"
     ]
   },
   "include": [

@@ -10,7 +10,7 @@ import { db } from '@/services/cloud'
  */
 
 // let isDev = false
-export function useMap(list : Ref<GuideItem[]>) {
+export function useMap(list: Ref<GuideItem[]>) {
   const ctx = getCurrentInstance()
   onLoad(query => {
     if (query) {
@@ -21,7 +21,7 @@ export function useMap(list : Ref<GuideItem[]>) {
     }
   })
 
-  const lnglat : Ref<GuidePointer | null> = shallowRef(null)
+  const lnglat: Ref<GuidePointer | null> = shallowRef(null)
 
   const markers = computed(() => {
     return list.value.map((i, index) => {
@@ -44,11 +44,11 @@ export function useMap(list : Ref<GuideItem[]>) {
     })
   })
 
-  function doMoveToArea(item : GuideArea) {
+  function doMoveToArea(item: GuideArea) {
     lnglat.value = item.lnglat
   }
 
-  async function getAttraction(id : string) {
+  async function getAttraction(id: string) {
     loading()
     try {
       const { data: attraction } = await db.collection('JAttraction')
