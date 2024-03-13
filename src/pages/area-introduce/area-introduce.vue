@@ -49,8 +49,12 @@ function onPreviewImame(list: string[], index: number) {
 }
 
 const styleIntroduces: Ref<GuideStyleIntroduce[]> = ref([])
+const isFetching = ref(true)
 
 const introduce = computed(() => {
+  if (isFetching.value) {
+    return '加载中...'
+  }
   if (styleIntroduces.value[0]) {
     return styleIntroduces.value[0].introduce
   } else {
@@ -81,15 +85,21 @@ onUnmounted(() => {
 })
 
 async function getStyleIntroduce(area: GuideArea) {
-  const { data } = await db.collection('JAreaIntroduce')
-    .where({
-      areaId: area._id,
-    })
-    .orderBy('updatedAt', 'desc')
-    .get()
+  try {
+    const { data } = await db.collection('JAreaIntroduce')
+      .where({
+        areaId: area._id,
+      })
+      .orderBy('updatedAt', 'desc')
+      .get()
 
-  styleIntroduces.value = data as GuideStyleIntroduce[]
-  onToggleAudio()
+    styleIntroduces.value = data as GuideStyleIntroduce[]
+    onToggleAudio()
+  } catch (e) {
+    console.error(e)
+  } finally {
+    isFetching.value = false
+  }
 }
 
 function onToggleAudio() {
