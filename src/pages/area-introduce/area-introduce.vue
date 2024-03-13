@@ -6,20 +6,20 @@ import { alert, loading, unloading, } from '@/services/ui'
 import { db } from '@/services/cloud'
 
 const area = ref<GuideArea>()
+const isAuto = ref(false)
 
 onLoad((query) => {
   if (query) {
     if (query.id) {
       getArea(query.id)
     }
+    if (query.isAuto) {
+      isAuto.value = true
+    }
   } else {
     alert('无景点，请勿非法进入')
   }
 })
-
-onReachBottom(() => { })
-
-onPullDownRefresh(() => { })
 
 onShareAppMessage(() => ({
   title: area.value!.name
@@ -89,6 +89,7 @@ async function getStyleIntroduce(area: GuideArea) {
     .get()
 
   styleIntroduces.value = data as GuideStyleIntroduce[]
+  onToggleAudio()
 }
 
 function onToggleAudio() {
