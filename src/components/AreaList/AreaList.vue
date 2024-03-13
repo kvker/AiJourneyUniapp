@@ -28,7 +28,7 @@ function onTogglePlay(item: InnerGuideArea) {
 }
 
 function doMoveToArea(item: InnerGuideArea) {
-  scrollTargetId.value = 'area-item-' + item.objectId
+  scrollTargetId.value = 'area-item-' + item._id
 }
 
 defineExpose({
@@ -39,7 +39,7 @@ defineExpose({
 <template>
   <scroll-view :scroll-y="true" class="area-list-component" :scroll-into-view="scrollTargetId"
     :scroll-with-animation="true">
-    <view v-for="item in areaList" :key="item.objectId" :id="'area-item-' + item.objectId" class="area-item flex aic"
+    <view v-for="item in areaList" :key="item._id" :id="'area-item-' + item._id" class="area-item flex aic"
       @tap="onChangeArea(item)">
       <image v-if="item.coverImageList[0]" class="item-image" :src="item.coverImageList[0] + '?imageView2/2/h/200'"
         mode="aspectFill"></image>
@@ -54,7 +54,7 @@ defineExpose({
 
 <style>
 scroll-view {
-  height: 62vh;
+  height: 32vh;
 }
 
 .area-list-component {
