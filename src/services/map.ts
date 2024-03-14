@@ -148,3 +148,15 @@ const wgs84tobd09 = (lng: number, lat: number) => {
   const result = gcj02tobd09(gcj02[0], gcj02[1])
   return result
 }
+
+export function distance(lnglat1: GuidePointer, lnglat2: GuidePointer) {
+  const radLat1 = lnglat1.latitude * Math.PI / 180.0
+  const radLat2 = lnglat2.latitude * Math.PI / 180.0
+  const a = radLat1 - radLat2
+  const b = lnglat1.longitude * Math.PI / 180.0 - lnglat2.longitude * Math.PI / 180.0
+  let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+    Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)))
+  s = s * 6378.137
+  s = Math.round(s * 10000) / 10000
+  return s * 1000
+}

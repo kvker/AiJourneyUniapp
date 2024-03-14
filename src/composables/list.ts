@@ -49,7 +49,7 @@ export function useList() {
         .orderBy('createdAt', 'asc')
         .get()
       areaList.value = data.map((item: GuideArea) => {
-        // 前端是展示用，故而获取数据后统一转为 GCJ 坐标
+        // 前端是展示用，数据库储存的都是标准 GPS 即 wgs84 坐标，故而获取数据后统一转为 GCJ 坐标
         const [longitude, latitude] = wgs84togcj02(item.lnglat.longitude, item.lnglat.latitude)
         return {
           ...item,

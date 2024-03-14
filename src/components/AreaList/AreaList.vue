@@ -27,12 +27,12 @@ function onTogglePlay(item: InnerGuideArea) {
   item.isPlay = true
 }
 
-function doMoveToArea(item: InnerGuideArea) {
+function onMoveToArea(item: InnerGuideArea) {
   scrollTargetId.value = 'area-item-' + item._id
 }
 
 defineExpose({
-  doMoveToArea,
+  onMoveToArea,
 })
 </script>
 

@@ -1,4 +1,4 @@
-import { computed, shallowRef, getCurrentInstance } from 'vue'
+import { computed, shallowRef, getCurrentInstance, ref } from 'vue'
 import type { Ref } from 'vue'
 import { onLoad, } from '@dcloudio/uni-app'
 import { alert, loading, unloading, } from '@/services/ui'
@@ -11,7 +11,6 @@ import { db } from '@/services/cloud'
 
 // let isDev = false
 export function useMap(list: Ref<GuideItem[]>) {
-  const ctx = getCurrentInstance()
   onLoad(query => {
     if (query) {
       // isDev = query.id === '659e75a84700c26fdeda7874'
@@ -20,6 +19,21 @@ export function useMap(list: Ref<GuideItem[]>) {
       alert('请准确进入')
     }
   })
+
+  const getAttraction = async (id: string) => {
+    loading()
+    try {
+      const { data: attraction } = await db.collection('JAttraction')
+        .doc(id)
+        .get()
+      const [longitude, latitude] = wgs84togcj02(attraction.lnglat.longitude, attraction.lnglat.latitude)
+      lnglat.value = { longitude, latitude }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      unloading()
+    }
+  }
 
   const lnglat: Ref<GuidePointer | null> = shallowRef(null)
 
@@ -44,28 +58,22 @@ export function useMap(list: Ref<GuideItem[]>) {
     })
   })
 
-  function doMoveToArea(item: GuideArea) {
+  // 自动定位相关功能
+  const enabled = ref(true)
+  function onMoveToCenter(center: GuidePointer) {
+    lnglat.value = { longitude: 0, latitude: 0 }
+    lnglat.value = center
+  }
+
+  function onMoveToArea(item: GuideArea) {
     lnglat.value = item.lnglat
   }
 
-  async function getAttraction(id: string) {
-    loading()
-    try {
-      const { data: attraction } = await db.collection('JAttraction')
-        .doc(id)
-        .get()
-      const [longitude, latitude] = wgs84togcj02(attraction.lnglat.longitude, attraction.lnglat.latitude)
-      lnglat.value = { longitude, latitude }
-    } catch (e) {
-      console.error(e)
-    } finally {
-      unloading()
-    }
-  }
-
   return {
+    enabled,
     lnglat,
     markers,
-    doMoveToArea,
+    onMoveToArea,
+    onMoveToCenter,
   }
 }
