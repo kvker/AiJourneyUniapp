@@ -25,11 +25,12 @@ function onMarkerTap(e: DetailEvent) {
 }
 
 function onChangeArea(item: GuideItem) {
+  if (isAuto.value) return
   listRef.value.onMoveToArea(item)
   onMoveToArea(item)
   if (item.type === 'area') {
     uni.navigateTo({
-      url: `/pages/area-introduce/area-introduce?id=${item._id}&attractionId=${attraction.value?._id}${isAuto ? '&isAuto=true' : ''}`
+      url: `/pages/area-introduce/area-introduce?id=${item._id}&attractionId=${attraction.value?._id}${isAuto.value ? '&isAuto=true' : ''}`
     })
   }
 }
@@ -41,7 +42,7 @@ function onChangeAutoState() {
   if (isAuto.value) {
     uni.showModal({
       title: '提示',
-      content: '自动播放讲解、关闭地图交互。',
+      content: '自动播放讲解、关闭地图与列表交互。',
       showCancel: false,
       success: (res) => {
         if (res.confirm) {

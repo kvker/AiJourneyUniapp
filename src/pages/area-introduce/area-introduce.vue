@@ -94,7 +94,7 @@ async function getStyleIntroduce(area: GuideArea) {
       .get()
 
     styleIntroduces.value = data as GuideStyleIntroduce[]
-    onToggleAudio()
+    isAuto.value && onToggleAudio()
   } catch (e) {
     console.error(e)
   } finally {
