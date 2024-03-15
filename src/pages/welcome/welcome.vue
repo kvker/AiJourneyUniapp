@@ -24,7 +24,8 @@ onShareAppMessage(() => ({
         </swiper-item>
       </swiper>
       <navigator :url="`/pages/guide/guide?id=${attraction._id}&attractionId=${attraction._id}`">
-        <cover-image src="../../static/images/guide-main.png"></cover-image>
+        <cover-image
+          src="https://6169-ai-tools-6guwawtsb724a7e7-1254288091.tcb.qcloud.la/images/guide-main.png?sign=e3591ce0c45a58b6226011bd03801a72&t=1710475272"></cover-image>
       </navigator>
     </template>
   </view>
