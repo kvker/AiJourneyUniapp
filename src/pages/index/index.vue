@@ -69,13 +69,13 @@ function onGetMore() {
           <view class="flex-c jcc f1 mx-10">
             <text class="font-bold">{{ item.name }}</text>
             <view class="flex aic sub-info">
-              <view class="flex aic">
+              <view class="flex aic voice-count">
                 <image class="icon" src="/static/icons/voice.png" mode="aspectFill"></image>
                 <text>{{ item.voiceCount }}个</text>
               </view>
-              <view class="flex aic ml-20">
+              <view class="flex aic f1">
                 <image class="icon" src="/static/icons/location.png" mode="aspectFill"></image>
-                <text>{{ item.location }}</text>
+                <text class="overflow2">{{ item.location }}</text>
               </view>
             </view>
           </view>
@@ -139,5 +139,9 @@ scroll-view {
   font-size: 24rpx;
   line-height: 24rpx;
   margin-top: 8rpx;
+}
+
+.voice-count {
+  width: 100rpx;
 }
 </style>
