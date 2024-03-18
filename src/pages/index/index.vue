@@ -48,6 +48,7 @@ function onRefresh() {
   isRefreshing.value = true
   list.value = []
   _page = 0
+  noMore = false
   getAttractionList()
 }
 
