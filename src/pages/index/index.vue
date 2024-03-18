@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
 import { loading, unloading, } from '@/services/ui'
 import { db } from '@/services/cloud'
+const _ = db.command
 
 type IndexAttraction = { _id: string, name: string, introduce: string, introduceImageList: string[], location: string, voiceCount: number }
 
@@ -21,13 +22,15 @@ async function getAttractionList() {
   loading()
   try {
     const { data } = await db.collection('JAttraction')
+      .where({
+        disabled: _.neq(true),
+      })
       .skip(_page * _size)
       .limit(_size)
       .get()
-    if (data.length) {
-      list.value = [...list.value, ...data as IndexAttraction[]]
-      _page++
-    } else {
+    list.value = [...list.value, ...data as IndexAttraction[]]
+    _page++
+    if (data.length < _size) {
       noMore = true
     }
   } catch (e) {
