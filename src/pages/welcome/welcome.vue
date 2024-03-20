@@ -14,7 +14,7 @@ onShareAppMessage(() => ({
 <template>
   <view class="page">
     <template v-if="attraction">
-      <swiper :indicator-dots="false" :autoplay="true" :interval="5000" :duration="1000">
+      <swiper :indicator-dots="false" :autoplay="!attraction.introduceVideo" :interval="5000" :duration="1000">
         <swiper-item v-if="attraction.introduceVideo">
           <video :src="attraction.introduceVideo" :muted="muted" :autoplay="true" :controls="false" object-fit="cover"
             @tap="muted = !muted" :loop="true" :custom-cache="false"></video>
