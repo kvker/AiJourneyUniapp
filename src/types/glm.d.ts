@@ -12,6 +12,6 @@ type GLMCharacterMeta = {
   user_name?: string
 }
 
-type GLMMessage = {
+type GlmMessage = {
   content: string, role: 'user' | 'assistant' | 'system'
 }
