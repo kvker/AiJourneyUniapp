@@ -14,7 +14,10 @@ onShareAppMessage(() => ({
 
 // 设置屏幕常亮
 uni.setKeepScreenOn({
-  keepScreenOn: true
+  keepScreenOn: true,
+  fail: error => {
+    console.error(error)
+  }
 })
 
 const { attraction } = useAttraction()

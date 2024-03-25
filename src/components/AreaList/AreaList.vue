@@ -53,12 +53,9 @@ defineExpose({
 </template>
 
 <style>
-scroll-view {
-  height: 32vh;
-}
-
 .area-list-component {
   padding: 20rpx;
+  height: 32vh;
   background-color: white;
 }
 
