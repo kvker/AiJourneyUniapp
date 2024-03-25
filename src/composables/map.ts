@@ -36,6 +36,7 @@ export function useMap(list: Ref<GuideItem[]>) {
   }
 
   const lnglat: Ref<GuidePointer | null> = shallowRef(null)
+  const mapScaleRef = ref(18)
 
   const markers = computed(() => {
     return list.value.map((i, index) => {
@@ -75,5 +76,6 @@ export function useMap(list: Ref<GuideItem[]>) {
     markers,
     onMoveToArea,
     onMoveToCenter,
+    mapScaleRef,
   }
 }

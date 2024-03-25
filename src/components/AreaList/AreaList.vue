@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
-type InnerGuideArea = GuideArea & { isPlay: boolean }
+type InnerGuideArea = GuideItem
 
 const props = defineProps<{
   list: InnerGuideArea[]
@@ -11,7 +11,7 @@ const scrollTargetId = ref('')
 
 const areaList = computed(() => {
   return props.list.map((i) => {
-    i.isPlay = false
+    i.state = 'normal'
     return i
   })
 })
@@ -23,8 +23,7 @@ function onChangeArea(item: InnerGuideArea) {
 }
 
 function onTogglePlay(item: InnerGuideArea) {
-  areaList.value.forEach(i => i.isPlay = false)
-  item.isPlay = true
+  item.state = 'playing'
 }
 
 function onMoveToArea(item: InnerGuideArea) {
@@ -46,7 +45,8 @@ defineExpose({
       <view class="info">
         <text class="name">{{ item.name }}</text>
       </view>
-      <image class="audio-icon" :src="item.isPlay ? '/static/icons/audio.png' : '/static/icons/audio-disabled.png'"
+      <image class="audio-icon"
+        :src="item.state !== 'normal' ? '/static/icons/audio.png' : '/static/icons/audio-disabled.png'"
         mode="aspectFill" @tap.stop="onTogglePlay(item)"></image>
     </view>
   </scroll-view>

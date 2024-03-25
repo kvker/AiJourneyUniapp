@@ -5,7 +5,7 @@ import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dc
 import { alert, loading, unloading, } from '@/services/ui'
 import { db } from '@/services/cloud'
 
-const area = ref<GuideArea>()
+const areaRef = ref<GuideArea>()
 const isAuto = ref(false)
 
 onLoad((query) => {
@@ -22,7 +22,7 @@ onLoad((query) => {
 })
 
 onShareAppMessage(() => ({
-  title: area.value!.name
+  title: areaRef.value!.name
 }))
 
 async function getArea(id: string) {
@@ -31,7 +31,7 @@ async function getArea(id: string) {
     const { data } = await db.collection('JArea')
       .doc(id)
       .get()
-    area.value = data as GuideArea
+    areaRef.value = data as GuideArea
   } catch (e) {
     console.error(e)
   } finally {
@@ -40,7 +40,7 @@ async function getArea(id: string) {
 }
 
 function onPreviewImame(list: string[], index: number) {
-  if (area.value) {
+  if (areaRef.value) {
     uni.previewImage({
       urls: list,
       current: list[index],
@@ -49,16 +49,16 @@ function onPreviewImame(list: string[], index: number) {
 }
 
 const styleIntroduces: Ref<GuideStyleIntroduce[]> = ref([])
-const isFetching = ref(true)
+const isFetchingRef = ref(true)
 
 const introduce = computed(() => {
-  if (isFetching.value) {
+  if (isFetchingRef.value) {
     return '加载中...'
   }
   if (styleIntroduces.value[0]) {
     return styleIntroduces.value[0].introduce
   } else {
-    return area.value!.introduce
+    return areaRef.value!.introduce
   }
 })
 
@@ -67,18 +67,30 @@ const voice = computed(() => {
   return src
 })
 
-watch(() => area.value, (val) => {
+watch(() => areaRef.value, (val) => {
   if (val) {
-    getStyleIntroduce(area.value as GuideArea)
+    getStyleIntroduce(areaRef.value as GuideArea)
   }
 }, {
   immediate: true
 })
 
-const isPlay = ref(false)
+const isPlayRef = ref(false)
 const ac = uni.createInnerAudioContext()
-ac.onEnded(() => isPlay.value = false)
-ac.onError(() => isPlay.value = false)
+ac.onEnded(() => {
+  isPlayRef.value = false
+  uni.$emit('arePlayEnded', { area: areaRef.value })
+  if (isAuto.value) {
+    uni.navigateBack()
+  }
+})
+ac.onError(() => {
+  isPlayRef.value = false
+  uni.$emit('arePlayEnded', { area: areaRef.value })
+  if (isAuto.value) {
+    uni.navigateBack()
+  }
+})
 
 onUnmounted(() => {
   ac.stop()
@@ -98,7 +110,7 @@ async function getStyleIntroduce(area: GuideArea) {
   } catch (e) {
     console.error(e)
   } finally {
-    isFetching.value = false
+    isFetchingRef.value = false
   }
 }
 
@@ -107,9 +119,9 @@ function onToggleAudio() {
     const voice = styleIntroduces.value[0].voice
     if (voice) {
       ac.src = voice
-      isPlay.value = !isPlay.value
-      isPlay.value ? ac.play() : ac.pause()
-      // console.log(isPlay.value)
+      isPlayRef.value = !isPlayRef.value
+      isPlayRef.value ? ac.play() : ac.pause()
+      // console.log(isPlayRef.value)
     } else {
       console.log('无音频')
     }
@@ -121,21 +133,21 @@ function onToggleAudio() {
 
 <template>
   <view class="component h-100 flex-c">
-    <template v-if="area">
-      <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
-        <swiper-item v-for="(image, index) of area.coverImageList" :key="image"
-          @click.stop="onPreviewImame(area.coverImageList, index)">
+    <template v-if="areaRef">
+      <swiper :indicator-dots="true" :autoplay="true" :interval="5000" :duration="1000">
+        <swiper-item v-for="(image, index) of areaRef.coverImageList" :key="image"
+          @click.stop="onPreviewImame(areaRef.coverImageList, index)">
           <image class="w-100 h-100" :src="image + '?imageView2/2/h/800'" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
-      <view class="title bold mt-20 mb-10">{{ area.name }}</view>
+      <view class="title bold mt-20 mb-10">{{ areaRef.name }}</view>
       <view class="introduce f1 scroll-y pb-40"><text user-select>{{ introduce }}</text></view>
       <view class="controls mb-40">
-        <button v-if="voice" class="mt-10" @click="onToggleAudio">{{ isPlay ? '暂停' : '播放' }}音频</button>
+        <button v-if="voice" class="mt-10" @click="onToggleAudio">{{ isPlayRef ? '暂停' : '播放' }}音频</button>
       </view>
       <!-- 调试用 -->
       <!-- <view class="controls mb-40">
-        <button class="mt-10" @click="onToggleAudio">{{isPlay ? '暂停': '播放'}}音频</button>
+        <button class="mt-10" @click="onToggleAudio">{{isPlayRef ? '暂停': '播放'}}音频</button>
       </view> -->
     </template>
   </view>

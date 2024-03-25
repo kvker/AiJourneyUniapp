@@ -50,7 +50,9 @@ export function useList() {
         .get()
       areaList.value = data.map((item: GuideArea) => {
         // 前端是展示用，数据库储存的都是标准 GPS 即 wgs84 坐标，故而获取数据后统一转为 GCJ 坐标
+        // console.log(item.lnglat.longitude, item.lnglat.latitude)
         const [longitude, latitude] = wgs84togcj02(item.lnglat.longitude, item.lnglat.latitude)
+        // console.log({ longitude, latitude })
         return {
           ...item,
           lnglat: { longitude, latitude }

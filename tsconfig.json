@@ -14,7 +14,7 @@
       "dom"
     ],
     "types": [
-      "@dcloudio/types"
+      "@dcloudio/types",
     ]
   },
   "include": [

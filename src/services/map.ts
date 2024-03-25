@@ -102,7 +102,7 @@ export const wgs84togcj02 = (lng: number, lat: number) => {
  * @param { Number } lat:需要转换的纬度
  * @return { Array } result: 转换后的经纬度数组
  */
-const gcj02towgs84 = (lng: number, lat: number) => {
+export const gcj02towgs84 = (lng: number, lat: number) => {
   if (outOfChina(lng, lat)) {
     return [lng, lat]
   }
