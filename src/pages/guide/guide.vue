@@ -54,7 +54,7 @@ function onChangeAutoState() {
   if (isAuto.value) {
     uni.showModal({
       title: '提示',
-      content: '自动播放讲解、关闭地图与列表交互。',
+      content: '请保持小程序前台运行。',
       showCancel: false,
       success: (res) => {
         if (res.confirm) {
