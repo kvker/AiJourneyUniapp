@@ -124,7 +124,7 @@ function onHandlerMapCenterWithAreaList() {
 
   currentArea.state = 'playing'
 
-  if (minDistance > 0 && minDistance < 100) {
+  if (minDistance > 0 && minDistance < 50) {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
     if (currentPage.route === 'pages/area-introduce/area-introduce') {
