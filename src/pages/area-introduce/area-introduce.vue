@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import { onLoad, onReachBottom, onPullDownRefresh, onShareAppMessage } from '@dcloudio/uni-app'
+import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
 import { alert, loading, unloading, } from '@/services/ui'
 import { db } from '@/services/cloud'
 
@@ -94,6 +94,7 @@ ac.onError(() => {
 
 onUnmounted(() => {
   ac.stop()
+  uni.$emit('arePlayEnded', { area: areaRef.value })
 })
 
 async function getStyleIntroduce(area: GuideArea) {
