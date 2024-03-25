@@ -114,7 +114,7 @@ function onHandlerMapCenterWithAreaList() {
 <template>
   <view class="page">
     <view class="map-container">
-      <map v-if="lnglat" id="map" class="w-100 h-100" :markers="markers" :longitude="lnglat.longitude"
+      <map v-if="lnglat" id="map" class="w-100 h-100" :show-location="true" :markers="markers" :longitude="lnglat.longitude"
         :latitude="lnglat.latitude" scale="17" @markertap="onMarkerTap" :enable-zoom="enabled" :enable-scroll="enabled"
         :enable-rotate="enabled"></map>
     </view>
