@@ -23,7 +23,12 @@ function onChangeArea(item: InnerGuideArea) {
 }
 
 function onTogglePlay(item: InnerGuideArea) {
-  item.state = 'playing'
+  if (item.state !== 'normal') item.state = 'normal'
+  else {
+    item.state = 'ended'
+    onMoveToArea(item)
+    onChangeArea(item)
+  }
 }
 
 function onMoveToArea(item: InnerGuideArea) {
