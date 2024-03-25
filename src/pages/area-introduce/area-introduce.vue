@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import { onLoad, onShareAppMessage } from '@dcloudio/uni-app'
+import { onLoad, onShareAppMessage, onHide, onShow } from '@dcloudio/uni-app'
 import { alert, loading, unloading, } from '@/services/ui'
 import { db } from '@/services/cloud'
 
@@ -77,6 +77,7 @@ watch(() => areaRef.value, (val) => {
 
 const isPlayRef = ref(false)
 const ac = uni.createInnerAudioContext()
+
 ac.onEnded(() => {
   isPlayRef.value = false
   uni.$emit('arePlayEnded', { area: areaRef.value })
@@ -84,12 +85,36 @@ ac.onEnded(() => {
     uni.navigateBack()
   }
 })
+
 ac.onError(() => {
   isPlayRef.value = false
   uni.$emit('arePlayEnded', { area: areaRef.value })
   if (isAuto.value) {
     uni.navigateBack()
   }
+})
+
+let hasHide = false
+onHide(() => {
+  hasHide = true
+  isPlayRef.value = false
+  ac.pause()
+})
+
+onShow(() => {
+  if (hasHide) {
+    uni.showModal({
+      title: '提示',
+      content: '是否继续播放？',
+      success: (res) => {
+        if (res.confirm) {
+          isPlayRef.value = true
+          ac.play()
+        }
+      }
+    })
+  }
+  hasHide = false
 })
 
 onUnmounted(() => {
